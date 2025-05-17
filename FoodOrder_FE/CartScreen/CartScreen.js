@@ -4,14 +4,14 @@ import { View,Text } from "react-native";
 // - If personal user: Order, On-Trend Food, Shop that is placed high in ranks
 // - If shop user: Edit Food, Order, Menu, ...
 
-const HomeScreen = () => {
+const CartScreen = () => {
   return (
     <View style={{
         flex: 1
     }}>
-      <Text>Home Screen!</Text>
+      <Text>Cart Screen!</Text>
     </View>
   );
 };
 
-export default HomeScreen;
+export default CartScreen;

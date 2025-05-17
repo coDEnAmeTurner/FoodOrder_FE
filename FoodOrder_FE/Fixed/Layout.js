@@ -1,9 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import HomeScreen from "../HomeScreen/HomeScreen";
-import MyShopScreen from "../MyShopScreen/MyShopScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
-import SettingScreen from "../SettingScreen/SettingScreen";
 import { View } from "react-native";
+import SearchScreen from "../SearchScreen/SearchScreen";
+import FavoriteScreen from "../FavoriteScreen/FavoriteScreen";
+import CartScreen from "../CartScreen/CartScreen";
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 const BottomTabs = createBottomTabNavigator();
 
@@ -20,11 +22,35 @@ const Layout = () => {
           {children}
         </View>
       )}
+
+      screenOptions={({route})=>({
+        tabBarIcon: ({ focused, color, size }) => {
+          let iconName;
+
+          if (route.name === 'Home') {
+            iconName = focused ? 'home' : 'home-outline';
+          } else if (route.name === 'Search') {
+            iconName = focused ? 'search' : 'search-outline';
+          } else if (route.name === 'Favorite') {
+            iconName = focused ? 'heart' : 'heart-outline';
+          } else if (route.name === 'Cart') {
+            iconName = focused ? 'cart' : 'cart-outline';
+          } else if (route.name === 'Profile') {
+            iconName = focused ? 'person' : 'person-outline';
+          }
+
+          // Return icon component
+          return <Ionicons name={iconName} size={size} color={color}/>;
+        },
+        tabBarActiveTintColor: '#ff4000',
+        tabBarInactiveTintColor: 'gray'
+      })}
     >
       <BottomTabs.Screen name="Home" component={HomeScreen} />
-      <BottomTabs.Screen name="MyShop" component={MyShopScreen} />
+      <BottomTabs.Screen name="Search" component={SearchScreen} />
+      <BottomTabs.Screen name="Favorite" component={FavoriteScreen} />
+      <BottomTabs.Screen name="Cart" component={CartScreen} />
       <BottomTabs.Screen name="Profile" component={ProfileScreen} />
-      <BottomTabs.Screen name="Setting" component={SettingScreen} />
     </BottomTabs.Navigator>
   );
 };
