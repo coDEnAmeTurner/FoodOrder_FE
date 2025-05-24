@@ -1,11 +1,11 @@
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import { View } from "react-native";
+import Ionicons from 'react-native-vector-icons/Ionicons'; 
 import HomeScreen from "../HomeScreen/HomeScreen";
 import ProfileScreen from "../ProfileScreen/ProfileScreen";
-import { View } from "react-native";
 import SearchScreen from "../SearchScreen/SearchScreen";
 import FavoriteScreen from "../FavoriteScreen/FavoriteScreen";
 import CartScreen from "../CartScreen/CartScreen";
-import Ionicons from 'react-native-vector-icons/Ionicons'; 
 
 const BottomTabs = createBottomTabNavigator();
 
