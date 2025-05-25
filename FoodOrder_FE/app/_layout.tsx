@@ -1,5 +1,21 @@
 import { Stack } from "expo-router";
+import Layout from "../src/Components/Layout/Layout";
 
 export default function RootLayout() {
-  return <Stack />;
+  return (
+    <Stack
+      screenOptions={{
+        headerStyle: {
+          backgroundColor: "#f4511e",
+        },
+        headerTintColor: "#fff",
+        headerTitleStyle: {
+          fontWeight: "bold",
+        },
+      }}
+    >
+      <Stack.Screen name="index" />
+      <Stack.Screen name="details" />
+    </Stack>
+  );
 }
