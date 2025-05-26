@@ -13,7 +13,8 @@ const homeScreenStyle = StyleSheet.create({
         flexDirection: "row"
     },
     searchInputView: {
-        flex: 18,
+        marginLeft:5,
+        flex: 7,
         borderWidth:2,
         borderColor:"#ffa500",
         borderRadius: 7,
@@ -48,11 +49,12 @@ export const displayItemStyles = StyleSheet.create({
     displayItem: {
         backgroundColor: "white",
         height: 100,
-        borderWidth: 0.6,
-        borderColor: "linear-gradient(110deg,rgba(2, 0, 36, 1) 0%, rgba(8, 86, 158, 1) 33%, rgba(251, 0, 255, 1) 63%)",
+        borderWidth: 3,
+        borderColor: "linear-gradient(110deg,rgb(148, 19, 253) 0%, rgba(8, 86, 158, 1) 33%, rgba(251, 0, 255, 1) 63%)",
         borderRadius: 20,
         paddingLeft:15,
-        flexDirection:"row"
+        margin:5,
+        
     },
 
     displayName: {
@@ -64,7 +66,8 @@ export const displayItemStyles = StyleSheet.create({
     displayDishPic: {
         flex:1, 
         justifyContent:"center"
-    }
+    },
+
 })
 
 export default homeScreenStyle;

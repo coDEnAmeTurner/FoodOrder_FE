@@ -1,11 +1,11 @@
 import { useEffect, useState } from "react";
-import { View, Text, TextInput,FlatList, TouchableHighlight } from "react-native";
+import { View, Text,FlatList, TouchableHighlight } from "react-native";
 import homeScreenStyle, {displayItemStyles} from "../../stylesheets/HomeScreenStyle/HomeScreenStyle";
-import Icon from "@react-native-vector-icons/ionicons";
 import {AUTH_TOKEN, authApi} from "../../APIs/AxiosInst";
 import Endpoints from "../../APIs/Endpoints";
 import axios from "axios";
-import { Image } from "react-native";
+import { Image, ActivityIndicator } from "react-native";
+import QuerySection from "./QuerySection";
 
 // Home Screen will display:
 //- A button to toggle between food and menu -> food and menu are state also
@@ -30,10 +30,10 @@ const HomeScreen = () => {
     async function GetDisplayList() {
       try {
         if (displayType === DisplayType.DISH) {
-          const resp = await authApi(AUTH_TOKEN).get(Endpoints.GET_DISH + `?from_price=${fromPrice}&to_price=${toPrice}`);
+          const resp = await authApi(AUTH_TOKEN).get(Endpoints.GET_DISH + `?name=${searchStr}&from_price=${fromPrice}&to_price=${toPrice}&is_available=${available}&day_session=${daySession}`);
           
           if (resp.status === 200) {
-             setDishList(resp["data"]["results"])
+             setDishList(resp.data.results)
           } else {
             throw Error(resp.data);
           }
@@ -64,42 +64,28 @@ const HomeScreen = () => {
 
     GetDisplayList();
     
-    //searchStr, fromPrice, toPrice, available, daySession, displayType
-  }, []);
+  }, [searchStr, fromPrice, toPrice, available, daySession, displayType]);
 
   return (
     <View style={homeScreenStyle.homeScreen}>
-      <View style={homeScreenStyle.searchBar}>
-        <View style={homeScreenStyle.searchInputSide}></View>
-        <View
-          style={[
-            homeScreenStyle.searchInputView,
-            searchFocus
-              ? homeScreenStyle.searchFocus
-              : homeScreenStyle.searchNonFocus,
-          ]}
-        >
-          <TextInput
-            placeholder="Bạn muốn ăn gì?"
-            style={[homeScreenStyle.searchInput]}
-            onPressIn={(e) => setSearchFocus(true)}
-            onBlur={(e) => setSearchFocus(false)}
-            value={searchStr}
-            onChangeText={(val)=>setSearchStr(val)}
-          />
-          <Icon 
-            name="fast-food-outline"
-            style={homeScreenStyle.searchAdornment}
-            color="#ffa500"
-          />
-        </View>
-        <View style={homeScreenStyle.searchInputSide}></View>
-      </View>
+      <QuerySection 
+        searchFocus={searchFocus}
+        setSearchFocus={setSearchFocus}
+        searchStr={searchStr}
+        setSearchStr={setSearchStr}
+      />
       <View style={homeScreenStyle.homeContent}>
         <FlatList
           data={dishList}
+          ListEmptyComponent={()=>(
+            <View>
+              <ActivityIndicator style={{marginTop:300}} size='50' />
+              <Text style={{textAlign:"center", fontSize:16, color:'white'}}>    Loading...</Text>
+            </View>
+          )}
           renderItem={({item, index, separators}) => (
             <TouchableHighlight
+              style={[displayItemStyles.displayItem]}
               activeOpacity={0.6}
               underlayColor="#DDDDDD"
               onPress={() => {}}
@@ -107,12 +93,14 @@ const HomeScreen = () => {
               onHideUnderlay={separators.unhighlight}
               key={index}
             >
-              <View style={displayItemStyles.displayItem}>
+              <View style={{flexDirection:"row", flex:1}}>
                 <View style={{flex:4}}>
-                  <Text style={displayItemStyles.displayName}>{item.name}</Text>
-                  <Text>Khoảng cách</Text>
-                  <Text>Đánh giá</Text>
-                  <Text>{item.price * 1000} VND</Text>
+                  <View >
+                    <Text style={displayItemStyles.displayName}>{item.name}</Text>
+                    <Text>Khoảng cách</Text>
+                    <Text>Đánh giá</Text>
+                    <Text>{item.price * 1000} VND</Text>
+                  </View>
                 </View>
                 <View style={displayItemStyles.displayDishPic}>
                   <Image source={item.picture || require("../../../assets/images/favicon.png")}/>
@@ -127,3 +115,5 @@ const HomeScreen = () => {
 };
 
 export default HomeScreen;
+
+
