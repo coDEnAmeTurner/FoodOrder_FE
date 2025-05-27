@@ -1,48 +1,20 @@
+import { getReactNavigationConfig } from "expo-router/build/getReactNavigationConfig";
+
 const { StyleSheet } = require("react-native");
 
-const homeScreenStyle = StyleSheet.create({
+const homeScreenStyles = StyleSheet.create({
     homeScreen: {
         flex: 1,
         backgroundColor: "#68b5fd"
     },
+    
+})
 
-    searchBar: {
-        flex: 1,
-        backgroundColor: "#FFCD6B",
-        justifyContent: "center",
-        flexDirection: "row"
-    },
-    searchInputView: {
-        marginLeft:5,
-        flex: 7,
-        borderWidth:2,
-        borderColor:"#ffa500",
-        borderRadius: 7,
-    },
-    searchInputSide: {
-        flex: 2
-    },
-    searchInput: {
-        width: 294,
-        height:60
-    },
-    searchFocus: {
-        backgroundColor:"white"
-    },
-    searchNonFocus: {
-        backgroundColor: "#FFCD6B"
-    },
-    searchAdornment: {
-        position: "absolute",
-        fontSize: 40,
-        right:0,
-        top: 8
-    },
-    
+export const homeContentStyles = StyleSheet.create({
     homeContent: {
-        flex: 9,
+        flex: 17,
+        backgroundColor:"red"
     },
-    
 })
 
 export const displayItemStyles = StyleSheet.create({
@@ -70,4 +42,88 @@ export const displayItemStyles = StyleSheet.create({
 
 })
 
-export default homeScreenStyle;
+export const ToggleButton = StyleSheet.create({
+    backgroundColor:"rgb(187, 119, 226)", 
+    flex:1,
+    justifyContent:"center",
+    borderRadius: 10,
+    borderColor:"white",
+    borderWidth:4,
+
+    typeText:{
+        color:"rgb(241, 238, 7)", 
+        textAlign:"center",
+        fontWeight:"bold",
+        fontFamily:"cursive",
+        fontSize:23,
+    }
+})
+
+export const querySectionStyles = StyleSheet.create({
+    querySection: {
+        flex: 3,
+    },
+})
+
+export const otherQueryStyles = StyleSheet.create({
+    otherQuery: {
+        flex: 0.9,
+        flexDirection:"row",
+        justifyContent:"space-between"
+    },
+
+    otherQueryComp: {
+        flex: 1,
+        borderRadius: 30,
+        justifyContent:"center",
+        borderColor:"#ffa500",
+        borderWidth: 3,
+        margin: 4.5,
+        backgroundColor:"white"
+    },
+
+    otherQueryText: {
+        textAlign:"center",
+        fontWeight: "bold",
+        fontFamily:"fantasy"
+    }
+})
+
+export const searchBarStyles = StyleSheet.create({
+    searchBar: {
+        flex: 1.1,
+        backgroundColor: "#FFCD6B",
+        justifyContent: "center",
+        flexDirection: "row",
+    },
+    searchInputView: {
+        margin:8,
+        flex: 7,
+        borderWidth:2,
+        borderColor:"#ffa500",
+        borderRadius: 7,
+    },
+    toggleDTypeView: {
+        flex: 3,
+        margin:7,
+        marginLeft: 2
+    },
+    searchInput: {
+        width: 294,
+        height:47
+    },
+    searchFocus: {
+        backgroundColor:"white"
+    },
+    searchNonFocus: {
+        backgroundColor: "#FFCD6B"
+    },
+    searchAdornment: {
+        position: "absolute",
+        fontSize: 30,
+        right:0,
+        top: 5
+    },
+})
+
+export default homeScreenStyles;

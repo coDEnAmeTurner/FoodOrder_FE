@@ -1,4 +1,4 @@
-import CartScreen from "../../src/Components/CartScreen/CartScreen";
+import CartScreen from "../../../src/Components/CartScreen/CartScreen";
 
 export default function CartScreen_Wrapper() {
   return (
