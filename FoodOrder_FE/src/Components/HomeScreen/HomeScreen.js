@@ -5,15 +5,12 @@ import {AUTH_TOKEN, authApi} from "../../APIs/AxiosInst";
 import Endpoints from "../../APIs/Endpoints";
 import axios from "axios";
 import QuerySection from "./QuerySection";
-
+import {DisplayType} from "./HomeCommon"
+import {HomeContent} from "./HomeContent"
 
 // Home Screen will display:
 //- A button to toggle between food and menu -> food and menu are state also
 //
-export const DisplayType = {
-  DISH: 0,
-  MENU: 1,
-};
 
 const HomeScreen = () => {
   const [searchFocus, setSearchFocus] = useState(false);
@@ -74,10 +71,13 @@ const HomeScreen = () => {
         setSearchStr={setSearchStr}
         displayType={displayType} 
         setDisplayType={setDisplayType}
+        priceState={[fromPrice, setFromPrice, toPrice, setToPrice]}
+        avaiState={[available, setAvailable]}
+        daySessionState={[daySession, setDaySession]}
       />
       
       <View style={homeContentStyles.homeContent}>
-        {/* <HomeContent list={displayType === DisplayType.DISH ? dishList : menuList}/> */}
+        <HomeContent list={displayType === DisplayType.DISH ? dishList : menuList}/>
       </View>
     </View>
   );

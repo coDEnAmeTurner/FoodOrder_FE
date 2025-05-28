@@ -1,12 +1,17 @@
-import Icon from "@react-native-vector-icons/ionicons";
 import { TextInput, TouchableOpacity, View, Text } from "react-native";
 import {
   ToggleButton,
   otherQueryStyles,
   searchBarStyles,
 } from "../../stylesheets/HomeScreenStyle/HomeScreenStyle";
-import { DisplayType } from "./HomeScreen";
-import { Link } from "expo-router";
+import { useReducer } from "react";
+import { FilterType , DisplayType } from "./HomeCommon";
+import FilterItem from "./Filter/FilterItem";
+import PriceFilterContent from "./Filter/PriceFilterContent";
+import AvailableFilterContent from "./Filter/AvailableFilterContent";
+import DaySessionFilterContent from "./Filter/DaySessionFilterContent";
+import FilterTypeReducer, {filterTypeContext} from '../../Context/FilterTypeContext';
+import Icon from "@react-native-vector-icons/ionicons";
 
 const QuerySection = ({
   searchFocus,
@@ -16,7 +21,12 @@ const QuerySection = ({
   displayType,
   setDisplayType,
   style,
+  priceState,
+  avaiState,
+  daySessionState,
 }) => {
+  const [filterType, dispatchFilterType] = useReducer(FilterTypeReducer, FilterType.NONE)
+
   return (
     <View style={style}>
       <View style={searchBarStyles.searchBar}>
@@ -59,21 +69,22 @@ const QuerySection = ({
           </TouchableOpacity>
         </View>
       </View>
-      <View style={otherQueryStyles.otherQuery}>
-        <Link href={"/priceselect"} style={[otherQueryStyles.otherQueryComp]}>
-            <Text style={otherQueryStyles.otherQueryText}>Price</Text>
-        </Link>
-        <TouchableOpacity
-          style={[otherQueryStyles.otherQueryComp, otherQueryStyles.avai]}
-        >
-          <Text style={otherQueryStyles.otherQueryText}>Available</Text>
-        </TouchableOpacity>
-        <TouchableOpacity
-          style={[otherQueryStyles.otherQueryComp, otherQueryStyles.daySession]}
-        >
-          <Text style={otherQueryStyles.otherQueryText}>Day Session</Text>
-        </TouchableOpacity>
-      </View>
+      <filterTypeContext.Provider value={[filterType, dispatchFilterType]}>
+        <View style={otherQueryStyles.otherQuery}>
+          <FilterItem
+            content={<PriceFilterContent />}
+            typeEnum={FilterType.PRICE}
+          />
+          <FilterItem
+            content={<AvailableFilterContent />}
+            typeEnum={FilterType.AVAILABLE}
+          />
+          <FilterItem
+            content={<DaySessionFilterContent />}
+            typeEnum={FilterType.DAYSESSION}
+          />
+        </View>
+      </filterTypeContext.Provider>
     </View>
   );
 };

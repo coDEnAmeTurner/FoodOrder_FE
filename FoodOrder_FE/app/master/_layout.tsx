@@ -1,6 +1,7 @@
 import { Tabs } from 'expo-router';
 import Icon from "@react-native-vector-icons/ionicons"
 import { Text } from '@react-navigation/elements';
+import {HeaderStyle} from '../../src/stylesheets/Tabs/TabStyle'
 
 export default function RootLayout() {
   return (
@@ -40,7 +41,9 @@ export default function RootLayout() {
           // Return icon component
           return <Text>{label}</Text>;
         },
- 
+        headerStyle:HeaderStyle.header,
+        headerTintColor: "white",
+        headerTitleStyle: HeaderStyle.headerTitle
       })}
       >
       <Tabs.Screen name="index" options={{

@@ -1,11 +1,9 @@
-import { getReactNavigationConfig } from "expo-router/build/getReactNavigationConfig";
 
 const { StyleSheet } = require("react-native");
 
 const homeScreenStyles = StyleSheet.create({
     homeScreen: {
         flex: 1,
-        backgroundColor: "#68b5fd"
     },
     
 })
@@ -13,7 +11,8 @@ const homeScreenStyles = StyleSheet.create({
 export const homeContentStyles = StyleSheet.create({
     homeContent: {
         flex: 17,
-        backgroundColor:"red"
+        backgroundColor: "#FFCD6B"
+
     },
 })
 
@@ -62,6 +61,7 @@ export const ToggleButton = StyleSheet.create({
 export const querySectionStyles = StyleSheet.create({
     querySection: {
         flex: 3,
+        backgroundColor: "#FFCD6B"
     },
 })
 
@@ -75,17 +75,28 @@ export const otherQueryStyles = StyleSheet.create({
     otherQueryComp: {
         flex: 1,
         borderRadius: 30,
-        justifyContent:"center",
+        justifyContent:"start",
         borderColor:"#ffa500",
         borderWidth: 3,
         margin: 4.5,
-        backgroundColor:"white"
+        backgroundColor:"white",
     },
 
     otherQueryText: {
         textAlign:"center",
         fontWeight: "bold",
         fontFamily:"fantasy"
+    },
+
+    popUpStyle: {
+        position: "absolute",
+        backgroundColor:"red",
+        height:80,
+        width:401,
+        top:45,
+        zIndex: 1,
+        borderRadius: 10,
+        marginLeft:5,
     }
 })
 
