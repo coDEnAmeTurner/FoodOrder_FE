@@ -18,7 +18,7 @@ const HomeItem = ({separators, index, item}) => {
           <Text style={displayItemStyles.displayName}>{item.name}</Text>
           <Text>Khoảng cách</Text>
           <Text>Đánh giá</Text>
-          <Text>{item.price * 1000} VND</Text>
+          <Text>{item.price} VND</Text>
         </View>
       </View>
       <View style={displayItemStyles.displayDishPic}>

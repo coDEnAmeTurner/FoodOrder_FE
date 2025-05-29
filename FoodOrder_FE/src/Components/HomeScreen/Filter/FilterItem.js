@@ -4,7 +4,7 @@ import Icon from "@react-native-vector-icons/ionicons";
 import { useContext } from "react";
 import { filterTypeContext } from "@/src/Context/FilterTypeContext";
 
-const FilterItem = ({ typeEnum, content }) => {
+const FilterItem = ({ typeEnum, children }) => {
   const [filterType, dispatchFilterType] = useContext(filterTypeContext);
 
   return (
@@ -25,7 +25,7 @@ const FilterItem = ({ typeEnum, content }) => {
         />
       </TouchableOpacity>
       {filterType === typeEnum ? (
-        <View style={otherQueryStyles.popUpStyle}>{content}</View>
+        <View style={otherQueryStyles.popUpStyle}>{children}</View>
       ) : (
         <></>
       )}

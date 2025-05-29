@@ -18,8 +18,8 @@ const HomeScreen = () => {
   const [dishList, setDishList] = useState([]);
   const [menuList, setMenuList] = useState([]);
   const [searchStr, setSearchStr] = useState("");
-  const [fromPrice, setFromPrice] = useState(0);
-  const [toPrice, setToPrice] = useState(0);
+  const [fromPrice, setFromPrice] = useState('');
+  const [toPrice, setToPrice] = useState('');
   const [available, setAvailable] = useState(true);
   const [daySession, setDaySession] = useState('');
 
@@ -27,7 +27,8 @@ const HomeScreen = () => {
     async function GetDisplayList() {
       try {
         if (displayType === DisplayType.DISH) {
-          const resp = await authApi(AUTH_TOKEN).get(Endpoints.GET_DISH + `?name=${searchStr}&from_price=${fromPrice}&to_price=${toPrice}&is_available=${available}&day_session=${daySession}`);
+          console.log(available)
+          const resp = await authApi(AUTH_TOKEN).get(Endpoints.GET_DISH + `?name=${searchStr}&from_price=${Number(fromPrice)}&to_price=${Number(toPrice)}&is_available=${available?1:0}&day_session=${daySession}`);
           
           if (resp.status === 200) {
              setDishList(resp["data"]["results"])

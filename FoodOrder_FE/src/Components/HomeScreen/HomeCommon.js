@@ -9,3 +9,9 @@ export const FilterType = {
   AVAILABLE: 'Available',
   DAYSESSION: 'Day Session'
 }
+
+export const DaySession = {
+  MORNING: 'MORNING',
+  AFTERNOON: 'AFTERNOON',
+  NONE: ''
+}

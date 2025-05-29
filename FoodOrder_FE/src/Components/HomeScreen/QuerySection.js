@@ -5,12 +5,14 @@ import {
   searchBarStyles,
 } from "../../stylesheets/HomeScreenStyle/HomeScreenStyle";
 import { useReducer } from "react";
-import { FilterType , DisplayType } from "./HomeCommon";
+import { FilterType, DisplayType } from "./HomeCommon";
 import FilterItem from "./Filter/FilterItem";
 import PriceFilterContent from "./Filter/PriceFilterContent";
 import AvailableFilterContent from "./Filter/AvailableFilterContent";
 import DaySessionFilterContent from "./Filter/DaySessionFilterContent";
-import FilterTypeReducer, {filterTypeContext} from '../../Context/FilterTypeContext';
+import FilterTypeReducer, {
+  filterTypeContext,
+} from "../../Context/FilterTypeContext";
 import Icon from "@react-native-vector-icons/ionicons";
 
 const QuerySection = ({
@@ -25,7 +27,10 @@ const QuerySection = ({
   avaiState,
   daySessionState,
 }) => {
-  const [filterType, dispatchFilterType] = useReducer(FilterTypeReducer, FilterType.NONE)
+  const [filterType, dispatchFilterType] = useReducer(
+    FilterTypeReducer,
+    FilterType.NONE
+  );
 
   return (
     <View style={style}>
@@ -71,18 +76,15 @@ const QuerySection = ({
       </View>
       <filterTypeContext.Provider value={[filterType, dispatchFilterType]}>
         <View style={otherQueryStyles.otherQuery}>
-          <FilterItem
-            content={<PriceFilterContent />}
-            typeEnum={FilterType.PRICE}
-          />
-          <FilterItem
-            content={<AvailableFilterContent />}
-            typeEnum={FilterType.AVAILABLE}
-          />
-          <FilterItem
-            content={<DaySessionFilterContent />}
-            typeEnum={FilterType.DAYSESSION}
-          />
+          <FilterItem typeEnum={FilterType.PRICE}>
+            <PriceFilterContent priceState={[...priceState]} />
+          </FilterItem>
+          <FilterItem typeEnum={FilterType.AVAILABLE}>
+            <AvailableFilterContent avaiState={[...avaiState]} />
+          </FilterItem>
+          <FilterItem typeEnum={FilterType.DAYSESSION}>
+            <DaySessionFilterContent daySessionState={[...daySessionState]} />
+          </FilterItem>
         </View>
       </filterTypeContext.Provider>
     </View>

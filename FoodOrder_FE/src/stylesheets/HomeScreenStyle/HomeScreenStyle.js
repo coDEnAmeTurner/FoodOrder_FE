@@ -90,13 +90,37 @@ export const otherQueryStyles = StyleSheet.create({
 
     popUpStyle: {
         position: "absolute",
-        backgroundColor:"red",
+        borderColor:"orange",
+        borderWidth:3,
+        backgroundColor:"white",
         height:80,
         width:401,
         top:45,
         zIndex: 1,
         borderRadius: 10,
         marginLeft:5,
+    },
+
+    priceFilter: {
+        flex:1,
+        flexDirection:"row",
+        justifyContent:"space-evenly",
+        padding:7
+    },
+
+    priceValView: {
+        flex: 5,
+        padding: 5,
+        flexDirection: "row",
+        borderWidth: 1,
+        borderColor: "orange",
+        borderRadius: 7,
+    },
+
+    daySessionItem: {
+        flex:1,
+        borderWidth:2,
+        justifyContent:"center"
     }
 })
 
