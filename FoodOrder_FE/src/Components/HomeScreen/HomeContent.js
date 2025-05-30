@@ -4,6 +4,7 @@ import React from "react";
 
 export const HomeContent = React.memo(function home_content ({list}) {
   return <FlatList
+    style={{width:'100%'}}
     data={list}
     ListEmptyComponent={() => (
       <View>

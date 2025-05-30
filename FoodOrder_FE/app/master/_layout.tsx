@@ -5,7 +5,7 @@ import {HeaderStyle} from '../../src/stylesheets/Tabs/TabStyle'
 
 export default function RootLayout() {
   return (
-    <Tabs
+    <Tabs 
       screenOptions={({route})=>({
         tabBarIcon: ({ focused, color, size }) => {
           let iconName;

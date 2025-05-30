@@ -27,7 +27,6 @@ const HomeScreen = () => {
     async function GetDisplayList() {
       try {
         if (displayType === DisplayType.DISH) {
-          console.log(available)
           const resp = await authApi(AUTH_TOKEN).get(Endpoints.GET_DISH + `?name=${searchStr}&from_price=${Number(fromPrice)}&to_price=${Number(toPrice)}&is_available=${available?1:0}&day_session=${daySession}`);
           
           if (resp.status === 200) {
