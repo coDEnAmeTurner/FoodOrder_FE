@@ -15,3 +15,10 @@ export const DaySession = {
   AFTERNOON: 'AFTERNOON',
   NONE: ''
 }
+
+export const ActionsShowType = {
+  SHOW: 0,
+  NOT_SHOW: -1,
+}
+
+export const PREFIX = 'image/upload/'

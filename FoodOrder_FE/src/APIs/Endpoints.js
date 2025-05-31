@@ -1,5 +1,7 @@
 const Endpoints = {
-    GET_DISH: "/dishs",
+    LIST_DISH: "/dishs",
+    RETRIEVE_DISH: (dishId)=> `/dishs/${dishId}`,
+    RETRIEVE_SHOP: (shopId)=> `/shops/${shopId}`,
     GET_MENU: "/menus",
 }
 

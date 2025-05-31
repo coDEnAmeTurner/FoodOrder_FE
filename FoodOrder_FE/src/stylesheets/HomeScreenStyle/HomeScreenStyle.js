@@ -16,25 +16,26 @@ export const homeContentStyles = StyleSheet.create({
 });
 
 export const displayItemStyles = StyleSheet.create({
+
+
   outerDItem: {
-    flex: 1,
     flexDirection: "row",
-    width: "100%",
     borderWidth: 3,
     borderColor:
       "linear-gradient(110deg,rgb(148, 19, 253) 0%, rgba(8, 86, 158, 1) 33%, rgba(251, 0, 255, 1) 63%)",
     borderRadius: 20,
     backgroundColor: "white",
     margin: 5,
-    height: 100,
+    // height: "auto",
+    height: "140",
     paddingLeft: 15,
     paddingRight: 15,
     paddingTop:5,
     paddingBottom:5,
-    overflow:"hidden"
   },
 
   displayItem: {
+    width:'100%',
   },
 
   displayName: {
@@ -49,22 +50,49 @@ export const displayItemStyles = StyleSheet.create({
     alignItems: "center",
   },
 
+  imageStyle: {
+    width: 110,
+    height: 110,
+    position:"absolute",
+    right: 15,
+    borderRadius:20,
+    borderColor:'red',
+    borderWidth:4
+  },
+
   outerActionsStyle: {
-    paddingLeft:15,
+    paddingLeft:5,
+    paddingRight:5,
     justifyContent: "center",
     alignItems: "center",
   },
+
+  linkWrapper: {
+    flex: 1,
+    padding:0,
+    paddingTop:8
+  },
+
   actionStyle: {
     flex:1,
     width:"100%",
     alignItems:"center",
     borderRadius:20,
     justifyContent:"center",
-    margin:2,
+    flexDirection:"row",
+    height:"70%",
+    position:'absolute'
   },
   actionText: {
     fontWeight:"bold",
-    color:"#FFF8DC"
+    color:"#FFF8DC",
+    marginRight:10
+  },
+  actionIcon: {
+    fontSize:20,
+    color:"#FFF8DC",
+    fontWeight:"bold",
+
   }
 });
 

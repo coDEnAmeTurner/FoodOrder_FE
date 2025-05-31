@@ -9,6 +9,10 @@ export default function RootLayout(){
         headerTintColor:"white"
     }}>
         <Stack.Screen name='master'/>
-        <Stack.Screen name='index'/>
+        <Stack.Screen name='dishs' options={{
+            headerShown: true,
+            headerTitle: 'Dish'
+        }}/>
+        <Stack.Screen name='index' />
     </Stack>
 }

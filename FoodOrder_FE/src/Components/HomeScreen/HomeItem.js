@@ -1,116 +1,138 @@
 import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenStyle";
-import { useState, useRef } from "react";
-import {
-  TouchableHighlight,
-  View,
-  Text,
-  Image,
-  TouchableOpacity,
-  Animated,
-} from "react-native";
+import { useState, useEffect } from "react";
+import { TouchableHighlight, View, Text, Image } from "react-native";
+import { Link } from "expo-router";
+
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { ActionsShowType , PREFIX } from "./HomeCommon";
+import Icon from "@react-native-vector-icons/ionicons";
+import Overview from './Detail/Overview'
 
 const HomeItem = ({ separators, index, item }) => {
-  const [showActions, setShowActions] = useState(false);
+  const [showActions, setShowActions] = useState(ActionsShowType.NOT_SHOW);
+  const [parentWidth, setParentWidth] = useState(0);
+  const contentPercent = useSharedValue(0.95);
+  const actionsPercent = useSharedValue(0.1);
 
-  const contentWidth = useRef(new Animated.Value(100)).current;
-  const actionsWidth = useRef(new Animated.Value(0)).current;
+  const contentWidthStyle = useAnimatedStyle(() => {
+    if (parentWidth === 0) return {};
+    return {
+      width: parentWidth * contentPercent.value,
+    };
+  });
+
+  const actionsWidthStyle = useAnimatedStyle(() => {
+    if (parentWidth === 0) return {};
+    return {
+      width: parentWidth * actionsPercent.value,
+    };
+  });
 
   const doShowActions = () => {
-    setShowActions(!showActions);
-
-    contentWidth.setValue(100);
-    actionsWidth.setValue(0);
-
-    Animated.parallel([
-      Animated.timing(contentWidth, {
-        toValue: 70,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-      Animated.timing(actionsWidth, {
-        toValue: 30,
-        duration: 500,
-        useNativeDriver: false,
-      }),
-    ]).start();
+    const newState =
+      showActions === ActionsShowType.NOT_SHOW
+        ? ActionsShowType.SHOW
+        : ActionsShowType.NOT_SHOW;
+    setShowActions(newState);
   };
 
+  useEffect(() => {
+    if (showActions === ActionsShowType.SHOW) {
+      contentPercent.value = withTiming(0.65, { duration: 300 });
+      actionsPercent.value = withTiming(0.27, { duration: 300 });
+    } else {
+      contentPercent.value = withTiming(0.95, { duration: 300 });
+      actionsPercent.value = withTiming(0.1, { duration: 300 });
+    }
+  }, [actionsPercent, contentPercent, showActions]);
+
   return (
-    <View style={displayItemStyles.outerDItem}>
-      <Animated.View
-        style={[
-          displayItemStyles.displayItem,
-          {
-            width: contentWidth.interpolate({
-              inputRange: [70, 100],
-              outputRange: ["70%", "100%"],
-            }),
-          },
-        ]}
-      >
+    <View
+      style={displayItemStyles.outerDItem}
+      onLayout={(e) => setParentWidth(e.nativeEvent.layout.width)}
+    >
+      <Animated.View style={[displayItemStyles.displayItem, contentWidthStyle]}>
         <View style={{ flexDirection: "row", flex: 1 }}>
           <View style={{ flex: 4 }}>
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="#DDDDDD"
-              onPressIn={doShowActions}
+              onPress={doShowActions}
               onShowUnderlay={separators.highlight}
               onHideUnderlay={separators.unhighlight}
               key={index}
+              style={{
+                borderRadius: 20,
+              }}
             >
-              <View>
-                <Text style={displayItemStyles.displayName}>{item.name}</Text>
-                <Text>Khoảng cách</Text>
-                <Text>Đánh giá</Text>
-                <Text>{item.price} VND</Text>
-              </View>
+              <Overview item={item} />
             </TouchableHighlight>
           </View>
           <View style={displayItemStyles.displayDishPic}>
             <Image
               source={
-                item.picture || require("../../../assets/images/favicon.png")
+                {uri: item.picture?item.picture.substring(PREFIX.length):require('../../../assets/images/favicon.png')}
               }
+               style={displayItemStyles.imageStyle}
             />
           </View>
         </View>
       </Animated.View>
-      {showActions ? (
+      {showActions === ActionsShowType.SHOW ? (
         <Animated.View
-          style={[
-            displayItemStyles.outerActionsStyle,
-            {
-              width: actionsWidth.interpolate({
-                inputRange: [0, 30],
-                outputRange: ["0%", "30%"],
-              }),
-            },
-          ]}
+          style={[displayItemStyles.outerActionsStyle, actionsWidthStyle]}
         >
-          <TouchableOpacity
-            style={[
-              displayItemStyles.actionStyle,
-              { backgroundColor: "#0000CD" },
-            ]}
-          >
-            <Text style={displayItemStyles.actionText}>View</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              displayItemStyles.actionStyle,
-              { backgroundColor: "#006400" },
-            ]}
-          >
-            <Text style={displayItemStyles.actionText}>Order</Text>
-          </TouchableOpacity>
-          <TouchableOpacity
-            style={[
-              displayItemStyles.actionStyle,
-              { backgroundColor: "#FF00FF" },
-            ]}
-          >
-            <Text style={displayItemStyles.actionText}>Favorite</Text>
-          </TouchableOpacity>
+          <Link href={{
+              pathname: "/dishs/[id]",
+              params: {
+                id: item.id
+              }
+            }} style={[displayItemStyles.linkWrapper]}>
+            <View
+              style={[
+                displayItemStyles.actionStyle,
+                { backgroundColor: "#0000CD", position:"relative", bottom:0 },
+              ]}
+            >
+              <Text style={displayItemStyles.actionText}>Detail</Text>
+              <Icon
+                name="eye-outline"
+                style={displayItemStyles.actionIcon}
+              ></Icon>
+            </View>
+          </Link>
+          <Link href={"/detail"} style={[displayItemStyles.linkWrapper]}>
+            <View
+              style={[
+                displayItemStyles.actionStyle,
+                { backgroundColor: "#006400" },
+              ]}
+            >
+              <Text style={displayItemStyles.actionText}>Order</Text>
+              <Icon
+                name="cash-outline"
+                style={displayItemStyles.actionIcon}
+              ></Icon>
+            </View>
+          </Link>
+          <Link href={"/dishs"} style={[displayItemStyles.linkWrapper]}>
+            <View
+              style={[
+                displayItemStyles.actionStyle,
+                { backgroundColor: "#FF00FF" },
+              ]}
+            >
+              <Text style={displayItemStyles.actionText}>Favorite</Text>
+              <Icon
+                name="star-outline"
+                style={displayItemStyles.actionIcon}
+              ></Icon>
+            </View>
+          </Link>
         </Animated.View>
       ) : (
         <></>
@@ -120,3 +142,6 @@ const HomeItem = ({ separators, index, item }) => {
 };
 
 export default HomeItem;
+
+
+
