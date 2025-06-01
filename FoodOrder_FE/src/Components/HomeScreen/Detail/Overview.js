@@ -7,6 +7,7 @@ import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenS
 import { useState } from "react";
 import NameText from "./NameText";
 import Popup from "./Popup";
+import { ScrollView } from "react-native";
 
 const Overview = ({
   shop,
@@ -20,7 +21,7 @@ const Overview = ({
   const [modalVisible, setModalVisible] = useState(false);
 
   return item ? (
-    <View>
+    <ScrollView>
       <View>
         {allowPopup ? (
           <>
@@ -74,7 +75,7 @@ const Overview = ({
           {"\u2022"} {item.price} VND
         </Text>
       </View>
-    </View>
+    </ScrollView>
   ) : (
     <ActivityIndicator size={"large"} />
   );

@@ -1,7 +1,6 @@
 import { FlatList, View, ActivityIndicator, Text , RefreshControl } from "react-native";
 import HomeItem from "./HomeItem";
-import React, { useCallback, useState } from "react";
-
+import React, { useCallback } from "react";
 
 
 export const HomeContent = React.memo(function useHomeContent({ list, refreshState }) {

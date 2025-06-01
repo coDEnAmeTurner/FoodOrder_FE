@@ -1,6 +1,6 @@
 import axios from 'axios';
 
-export const AUTH_TOKEN = 'stHktBmjYr4bPpBUxWFL8L6ieKhT3h'
+export const AUTH_TOKEN = 'PFcF3AMrmneKwskOkucy9jLGxygikb'
 const BASE_URL = 'http://192.168.1.5:8000'
 
 export const authApi = (accessToken) => axios.create({

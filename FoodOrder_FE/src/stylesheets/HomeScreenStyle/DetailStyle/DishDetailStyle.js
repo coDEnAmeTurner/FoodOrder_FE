@@ -1,6 +1,16 @@
 import { StyleSheet } from "react-native";
 
 export const DishDetailStyle = StyleSheet.create({
+    actionButton: {
+        flex:1,
+        marginLeft:4,
+        marginRight:4,
+        borderRadius:15,
+        flexDirection:'row',
+        justifyContent:'center',
+        alignItems:'center'
+    },
+
     dishDetail: {
         flex: 1,
         backgroundColor: "#FFCD6B",
@@ -14,7 +24,7 @@ export const DishDetailStyle = StyleSheet.create({
     },
 
     dishPicture: {
-        flex: 1.3,
+        flex: 2,
     },
     
     imageComp: {
@@ -39,9 +49,15 @@ export const DishDetailStyle = StyleSheet.create({
         borderRadius:9
     },
     dishContent: {
-        flex: 3.1,
-        backgroundColor:'yellow'
+        flex: 3.8,
+        padding:8
     },
 
-    
+    detailActions: {
+        flex: 0.2,
+        flexDirection:'row',
+        justifyContent:"space-around",
+        paddingLeft:5,
+        paddingRight:5
+    }
 })

@@ -1,3 +1,4 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 import { useCallback, useEffect, useState } from "react";
 import { ActivityIndicator, RefreshControl, View } from "react-native";
 import homeScreenStyles, {
@@ -72,14 +73,14 @@ const HomeScreen = () => {
   useEffect(() => {
     GetDisplayList()
 
-  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, GetDisplayList]);
+  }, [searchStr, fromPrice, toPrice, available, daySession, displayType]);
 
   useEffect(()=>{
     if (refreshing === true) {
       GetDisplayList()
       setRefreshing(false)
     }
-  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, GetDisplayList, refreshing])
+  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, refreshing])
 
   return (
     <View style={homeScreenStyles.homeScreen}>
