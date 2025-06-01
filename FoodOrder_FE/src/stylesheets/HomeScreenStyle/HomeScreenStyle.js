@@ -16,7 +16,44 @@ export const homeContentStyles = StyleSheet.create({
 });
 
 export const displayItemStyles = StyleSheet.create({
+  imgPopContent: {
+    backgroundColor:'black',
+    position:"absolute",
+    borderColor:'brown',
+    borderWidth:3.2,
+    borderRadius:16,
+    width:'75%',
+    height:'75%',
+    left:50,
+    top:56
+  },
 
+  modalNameContainer: { 
+    backgroundColor: "transparent", 
+    height: "100%" 
+  },
+
+  modalName: {
+    position:'absolute',  
+    backgroundColor: 'white',
+    top:100,
+    right:0,
+    borderColor:'brown',
+    borderWidth:3.2,
+    borderRadius:10,
+    marginLeft:10,
+    marginRight:7,
+    height:50,
+    justifyContent:'center',
+    paddingLeft:7,
+    paddingRight:7,
+  },
+
+  modalNameText: {
+    fontSize:20,
+    fontWeight:600,
+    fontStyle:'italic',
+  },
 
   outerDItem: {
     flexDirection: "row",
@@ -30,12 +67,12 @@ export const displayItemStyles = StyleSheet.create({
     height: "140",
     paddingLeft: 15,
     paddingRight: 15,
-    paddingTop:5,
-    paddingBottom:5,
+    paddingTop: 5,
+    paddingBottom: 5,
   },
 
   displayItem: {
-    width:'100%',
+    width: "100%",
   },
 
   displayName: {
@@ -53,47 +90,46 @@ export const displayItemStyles = StyleSheet.create({
   imageStyle: {
     width: 110,
     height: 110,
-    position:"absolute",
+    position: "absolute",
     right: 15,
-    borderRadius:20,
-    borderColor:'red',
-    borderWidth:4
+    borderRadius: 20,
+    borderColor: "red",
+    borderWidth: 4,
   },
 
   outerActionsStyle: {
-    paddingLeft:5,
-    paddingRight:5,
+    paddingLeft: 5,
+    paddingRight: 5,
     justifyContent: "center",
     alignItems: "center",
   },
 
   linkWrapper: {
     flex: 1,
-    padding:0,
-    paddingTop:8
+    padding: 0,
+    paddingTop: 8,
   },
 
   actionStyle: {
-    flex:1,
-    width:"100%",
-    alignItems:"center",
-    borderRadius:20,
-    justifyContent:"center",
-    flexDirection:"row",
-    height:"70%",
-    position:'absolute'
+    flex: 1,
+    width: "100%",
+    alignItems: "center",
+    borderRadius: 20,
+    justifyContent: "center",
+    flexDirection: "row",
+    height: "70%",
+    position: "absolute",
   },
   actionText: {
-    fontWeight:"bold",
-    color:"#FFF8DC",
-    marginRight:10
+    fontWeight: "bold",
+    color: "#FFF8DC",
+    marginRight: 10,
   },
   actionIcon: {
-    fontSize:20,
-    color:"#FFF8DC",
-    fontWeight:"bold",
-
-  }
+    fontSize: 20,
+    color: "#FFF8DC",
+    fontWeight: "bold",
+  },
 });
 
 export const ToggleButton = StyleSheet.create({

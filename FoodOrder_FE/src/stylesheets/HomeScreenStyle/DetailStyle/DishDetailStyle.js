@@ -26,9 +26,17 @@ export const DishDetailStyle = StyleSheet.create({
         borderWidth:4
     },
 
+    imageLargeComp: {
+        width:'100%',
+        height:'100%',
+        borderRadius:13,
+    },
+
     dishDescr: {
         flex: 1.7,
-        backgroundColor: 'cyan'
+        borderColor:'brown',
+        borderWidth:2,
+        borderRadius:9
     },
     dishContent: {
         flex: 3.1,

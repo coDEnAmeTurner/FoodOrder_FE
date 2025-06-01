@@ -57,7 +57,7 @@ const HomeItem = ({ separators, index, item }) => {
     >
       <Animated.View style={[displayItemStyles.displayItem, contentWidthStyle]}>
         <View style={{ flexDirection: "row", flex: 1 }}>
-          <View style={{ flex: 4 }}>
+          <View style={{ flex: 4, justifyContent:'center' }}>
             <TouchableHighlight
               activeOpacity={0.6}
               underlayColor="#DDDDDD"

@@ -1,5 +1,5 @@
-import { useEffect, useState } from "react";
-import { ActivityIndicator, View } from "react-native";
+import { useCallback, useEffect, useState } from "react";
+import { ActivityIndicator, RefreshControl, View } from "react-native";
 import homeScreenStyles, {
   homeContentStyles,
   querySectionStyles,
@@ -25,8 +25,9 @@ const HomeScreen = () => {
   const [toPrice, setToPrice] = useState("");
   const [available, setAvailable] = useState(true);
   const [daySession, setDaySession] = useState("");
+  const [refreshing, setRefreshing] = useState(false);
 
-  useEffect(() => {
+  const GetDisplayList = useCallback(() => {
     async function GetDisplayList() {
       try {
         if (displayType === DisplayType.DISH) {
@@ -66,7 +67,19 @@ const HomeScreen = () => {
     }
 
     GetDisplayList();
-  }, [searchStr, fromPrice, toPrice, available, daySession, displayType]);
+  }, []);
+
+  useEffect(() => {
+    GetDisplayList()
+
+  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, GetDisplayList]);
+
+  useEffect(()=>{
+    if (refreshing === true) {
+      GetDisplayList()
+      setRefreshing(false)
+    }
+  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, GetDisplayList, refreshing])
 
   return (
     <View style={homeScreenStyles.homeScreen}>
@@ -89,6 +102,7 @@ const HomeScreen = () => {
         ) : (
           <HomeContent
             list={displayType === DisplayType.DISH ? dishList : menuList}
+            refreshState={[refreshing, setRefreshing]}
           />
         )}
       </View>
