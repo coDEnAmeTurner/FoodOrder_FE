@@ -30,8 +30,6 @@ export default function RootLayout() {
 
           if (route.name === 'index') {
             label = 'Home';
-          } else if (route.name === 'favorite') {
-            label = 'Favorite';
           } else if (route.name === 'cart') {
             label = 'Cart';
           } else if (route.name === 'profile') {
@@ -49,9 +47,6 @@ export default function RootLayout() {
       <Tabs.Screen name="index" options={{
         title: 'Home'
       }} />
-      <Tabs.Screen name="favorite" options={{
-        title: 'Favorite'
-      }}/>
       <Tabs.Screen name="cart" options={{
         title: 'Cart'
       }}/>

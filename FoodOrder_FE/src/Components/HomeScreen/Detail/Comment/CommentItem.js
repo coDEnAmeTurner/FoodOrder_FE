@@ -2,17 +2,17 @@ import {
   View,
   Text,
   Image,
-  ScrollView,
   TouchableOpacity,
-  requireNativeComponent,
 } from "react-native";
 import { CommentStyle } from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
 import { PREFIX } from "../../HomeCommon";
 import { useState } from "react";
-import Popup from "../Popup";
-import Icon from "@react-native-vector-icons/ionicons";
+import RateBar from "../RateBar";
 
-const CommentItem = ({ item, index, seperators }) => {
+
+const CommentItem = ({ item, index, seperators, showDetailState }) => {
+  const [starCount, setStarCount] = useState(0);
+  const [showDetail, setShowDetail] = showDetailState;
 
   return (
     <View key={index} style={CommentStyle.commentItem}>
@@ -27,12 +27,19 @@ const CommentItem = ({ item, index, seperators }) => {
         />
         <Text
           style={CommentStyle.username}
-        >{`${item.user.last_name} ${item.user.first_name}`}</Text>
+        >{`${item?.user.last_name} ${item?.user.first_name}`}</Text>
       </View>
-      <View style={CommentStyle.comContent}>
-        <ScrollView nestedScrollEnabled>
-          <Text>{item.content}</Text>
-        </ScrollView>
+      <TouchableOpacity style={CommentStyle.comContent} onPress={()=>{setShowDetail(!showDetail)}}>
+        <View style={CommentStyle}>
+          <Text>{item?.content}</Text>
+        </View>
+      </TouchableOpacity>
+      <View style={CommentStyle.comBottom}>
+        <RateBar
+          containerStyle={CommentStyle.comRate}
+          iconStyle={[CommentStyle.rateIcon, { margin: 3, fontSize: 24 }]}
+          starState={[starCount, setStarCount]}
+        />
       </View>
     </View>
   );

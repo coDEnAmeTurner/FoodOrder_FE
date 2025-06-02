@@ -1,15 +1,13 @@
 /* eslint-disable react-hooks/exhaustive-deps */
 import { AUTH_TOKEN, authApi } from "@/src/APIs/AxiosInst";
 import Endpoints from "@/src/APIs/Endpoints";
-import { useEffect, useState, useCallback } from "react";
+import { useEffect, useState, useCallback, useReducer } from "react";
 import {
   ActivityIndicator,
   Image,
   View,
   Text,
   TouchableOpacity,
-  FlatList,
-  RefreshControl,
 } from "react-native";
 import { DishDetailStyle } from "../../../../stylesheets/HomeScreenStyle/DetailStyle/DishDetailStyle";
 import { PREFIX } from "../../HomeCommon";
@@ -17,16 +15,28 @@ import Overview from "../Overview";
 import Popup from "../Popup";
 import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenStyle";
 import Icon from "@react-native-vector-icons/ionicons";
-import CommentItem from "../CommentItem/CommentItem";
-import { CommentStyle } from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
+import CommentList from "../Comment/CommentItem";
+import DishElementReducer, {
+  dishElementContext,
+} from "@/src/Context/DishElementContext";
+import CommentListReducer, {
+  commentListContext,
+} from "@/src/Context/CommentListContext";
+
+import {
+  CommentStyle,
+  CommentDetail,
+} from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
+import RateBar from "../RateBar";
 
 const DishDetail = ({ dishId }) => {
-  const [element, setElement] = useState(null);
+  const [element, elementDispatch] = useReducer(DishElementReducer, []);
   const [shopOwner, setShopOwner] = useState(null);
-  const [comments, setComments] = useState([]);
-  const [comRefreshing, setComRefreshing] = useState(false);
+  const [comments, commentsDispatch] = useReducer(CommentListReducer, []);
   const [imgPop, setImgPop] = useState(false);
   const [actDisplay, setActDisplay] = useState(false);
+  const [starCount, setStarCount] = useState(0);
+  const [showDetail, setShowDetail] = useState(false);
 
   const onRefreshComments = useCallback(async (id) => {
     try {
@@ -35,7 +45,10 @@ const DishDetail = ({ dishId }) => {
       );
 
       if (resp.status === 200) {
-        setComments(resp.data);
+        commentsDispatch({
+          type: "set",
+          payload: resp.data,
+        });
       } else {
         throw Error(resp.data);
       }
@@ -52,7 +65,10 @@ const DishDetail = ({ dishId }) => {
         );
 
         if (resp.status === 200) {
-          setElement(resp.data);
+          elementDispatch({
+            type: "set",
+            payload: resp.data,
+          });
           setShopOwner(resp.data.shop);
           await onRefreshComments(resp.data.id);
         } else {
@@ -66,18 +82,6 @@ const DishDetail = ({ dishId }) => {
     retrieve();
   }, []);
 
-  useEffect(() => {
-    if (comRefreshing === true) {
-      async function commentsRetrieve() {
-        onRefreshComments();
-      }
-
-      commentsRetrieve();
-
-      setComRefreshing(false);
-    }
-  }, [comRefreshing]);
-
   return (
     <View style={DishDetailStyle.dishDetail}>
       {element === null ? (
@@ -88,6 +92,13 @@ const DishDetail = ({ dishId }) => {
       ) : (
         <>
           <View style={DishDetailStyle.dishOverview}>
+            <Popup
+              animationType={"fade"}
+              visibleState={[showDetail, setShowDetail]}
+              isSpotLight={true}
+            >
+              <View style={CommentDetail.container}></View>
+            </Popup>
             <View style={DishDetailStyle.dishPicture}>
               <Popup
                 animationType={"fade"}
@@ -107,41 +118,15 @@ const DishDetail = ({ dishId }) => {
                 </View>
               </Popup>
               <Popup
+                isSpotLight={true}
                 animationType={"slide"}
                 visibleState={[actDisplay, setActDisplay]}
               >
-                <View style={CommentStyle.ratePopup}>
-                  <TouchableOpacity style={{ flex: 1 }}>
-                    <Icon
-                      name="star-outline"
-                      style={CommentStyle.rateIcon}
-                    ></Icon>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ flex: 1 }}>
-                    <Icon
-                      name="star-outline"
-                      style={CommentStyle.rateIcon}
-                    ></Icon>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ flex: 1 }}>
-                    <Icon
-                      name="star-outline"
-                      style={CommentStyle.rateIcon}
-                    ></Icon>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ flex: 1 }}>
-                    <Icon
-                      name="star-outline"
-                      style={CommentStyle.rateIcon}
-                    ></Icon>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={{ flex: 1 }}>
-                    <Icon
-                      name="star-outline"
-                      style={CommentStyle.rateIcon}
-                    ></Icon>
-                  </TouchableOpacity>
-                </View>
+                <RateBar
+                  starState={[starCount, setStarCount]}
+                  containerStyle={CommentStyle.ratePopup}
+                  iconStyle={CommentStyle.rateIcon}
+                />
               </Popup>
               <TouchableOpacity
                 onPressIn={() => {
@@ -189,25 +174,13 @@ const DishDetail = ({ dishId }) => {
             <TouchableOpacity
               style={[
                 DishDetailStyle.actionButton,
-                { backgroundColor: "#FF00FF" },
-              ]}
-            >
-              <Text style={displayItemStyles.actionText}>Favorite</Text>
-              <Icon
-                name="heart-outline"
-                style={displayItemStyles.actionIcon}
-              ></Icon>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                DishDetailStyle.actionButton,
                 { backgroundColor: "#FF8C00" },
               ]}
               onPressIn={() => {
                 setActDisplay(!actDisplay);
               }}
             >
-              <Text>Rate  </Text>
+              <Text>Rate </Text>
               <Icon
                 name="star-outline"
                 style={displayItemStyles.actionIcon}
@@ -230,41 +203,14 @@ const DishDetail = ({ dishId }) => {
                 Comment Section
               </Text>
             </View>
-            <FlatList
-              nestedScrollEnabled
-              style={{ width: "100%" }}
-              data={comments}
-              ListEmptyComponent={() => (
-                <View>
-                  <ActivityIndicator style={{ marginTop: 300 }} size="50" />
-                  <Text
-                    style={{
-                      textAlign: "center",
-                      fontSize: 16,
-                      color: "black",
-                    }}
-                  >
-                    {" "}
-                    Loading...
-                  </Text>
-                </View>
-              )}
-              renderItem={({ item, index, separators }) => (
-                <CommentItem
-                  item={item}
-                  index={index}
-                  separators={separators}
+            <commentListContext.Provider value={[comments, commentsDispatch]}>
+              <dishElementContext.Provider value={[element, elementDispatch]}>
+                <CommentList
+                  showDetailState={[showDetail, setShowDetail]}
+                  onRefreshComments={onRefreshComments}
                 />
-              )}
-              refreshControl={
-                <RefreshControl
-                  refreshing={comRefreshing}
-                  onRefresh={() => {
-                    setComRefreshing(true);
-                  }}
-                />
-              }
-            />
+              </dishElementContext.Provider>
+            </commentListContext.Provider>
           </View>
         </>
       )}

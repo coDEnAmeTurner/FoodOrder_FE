@@ -119,20 +119,6 @@ const HomeItem = ({ separators, index, item }) => {
               ></Icon>
             </View>
           </Link>
-          <Link href={"/dishs"} style={[displayItemStyles.linkWrapper]}>
-            <View
-              style={[
-                displayItemStyles.actionStyle,
-                { backgroundColor: "#FF00FF" },
-              ]}
-            >
-              <Text style={displayItemStyles.actionText}>Favorite</Text>
-              <Icon
-                name="star-outline"
-                style={displayItemStyles.actionIcon}
-              ></Icon>
-            </View>
-          </Link>
         </Animated.View>
       ) : (
         <></>
