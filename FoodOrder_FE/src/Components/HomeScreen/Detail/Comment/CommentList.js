@@ -1,11 +1,11 @@
-import { useState, useEffect , useContext } from "react";
+import React, { useState, useEffect , useContext } from "react";
 import { FlatList, View, ActivityIndicator, Text , RefreshControl } from "react-native";
 import CommentItem from './CommentItem'
 import { dishElementContext } from "@/src/Context/DishElementContext";
 import { commentListContext } from "@/src/Context/CommentListContext";
 
 
-const CommentList = ({  showDetailState, onRefreshComments }) => {
+const CommentList = React.memo(function useCommentList ({  showDetailState, onRefreshComments }) {
   const [showDetail, setShowDetail] = showDetailState;
   const [comRefreshing, setComRefreshing] = useState(false);
 
@@ -61,6 +61,6 @@ const CommentList = ({  showDetailState, onRefreshComments }) => {
       }
     />
   );
-};
+}, );
 
 export default CommentList;

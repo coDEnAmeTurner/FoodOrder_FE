@@ -17,14 +17,14 @@ export const DishDetailStyle = StyleSheet.create({
     },
 
     dishOverview: {
-        flex: 0.9,
+        flex: 1.2,
         flexDirection:'row',
         margin:6,
         justifyContent:'center',
     },
 
     dishPicture: {
-        flex: 2,
+        flex: 1.7,
     },
     
     imageComp: {
@@ -43,13 +43,13 @@ export const DishDetailStyle = StyleSheet.create({
     },
 
     dishDescr: {
-        flex: 1.7,
+        flex: 2,
         borderColor:'brown',
         borderWidth:2,
         borderRadius:9
     },
     dishContent: {
-        flex: 3.8,
+        flex: 3.5,
         padding:8
     },
 

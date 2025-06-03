@@ -4,11 +4,10 @@ export const CommentStyle = StyleSheet.create({
   commentItem: {
     margin: 5,
     backgroundColor: "white",
-    height: 270,
+    height: 260,
     borderColor: "brown",
     borderWidth: 3,
     borderRadius: 20,
-    flex: 1,
   },
 
   ratePopup: {
@@ -63,14 +62,14 @@ export const CommentStyle = StyleSheet.create({
   comBottom:{
     flex:1,
     flexDirection:'row',
-    justifyContent:'flex-end',
+    justifyContent:'space-between',
     paddingRight:14,
     paddingTop:5,
     paddingBottom:7,
   },
 
   comRate: {
-    flex:0.47, 
+    flex:0.55, 
     flexDirection:"row",
     borderColor:'brown' ,
     borderWidth:3,
@@ -81,7 +80,7 @@ export const CommentStyle = StyleSheet.create({
   }
 });
 
-export const CommentDetail = StyleSheet.create({
+export const CommentDetailStyle = StyleSheet.create({
   container: {
     width:'90%',
     height:'93%',

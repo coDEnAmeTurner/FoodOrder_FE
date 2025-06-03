@@ -15,19 +15,19 @@ import Overview from "../Overview";
 import Popup from "../Popup";
 import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenStyle";
 import Icon from "@react-native-vector-icons/ionicons";
-import CommentList from "../Comment/CommentItem";
+import CommentList from "../Comment/CommentList";
 import DishElementReducer, {
   dishElementContext,
 } from "@/src/Context/DishElementContext";
 import CommentListReducer, {
   commentListContext,
 } from "@/src/Context/CommentListContext";
-
 import {
   CommentStyle,
-  CommentDetail,
+  CommentDetailStyle
 } from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
 import RateBar from "../RateBar";
+import CommentDetail  from "../Comment/CommentDetail";
 
 const DishDetail = ({ dishId }) => {
   const [element, elementDispatch] = useReducer(DishElementReducer, []);
@@ -80,7 +80,7 @@ const DishDetail = ({ dishId }) => {
     }
 
     retrieve();
-  }, []);
+  }, [dishId]);
 
   return (
     <View style={DishDetailStyle.dishDetail}>
@@ -97,7 +97,7 @@ const DishDetail = ({ dishId }) => {
               visibleState={[showDetail, setShowDetail]}
               isSpotLight={true}
             >
-              <View style={CommentDetail.container}></View>
+              <CommentDetail containerStyle={CommentDetailStyle.container}/>
             </Popup>
             <View style={DishDetailStyle.dishPicture}>
               <Popup
@@ -203,14 +203,19 @@ const DishDetail = ({ dishId }) => {
                 Comment Section
               </Text>
             </View>
-            <commentListContext.Provider value={[comments, commentsDispatch]}>
-              <dishElementContext.Provider value={[element, elementDispatch]}>
-                <CommentList
-                  showDetailState={[showDetail, setShowDetail]}
-                  onRefreshComments={onRefreshComments}
-                />
-              </dishElementContext.Provider>
-            </commentListContext.Provider>
+            {comments === null || element === null || comments.length < 1 ? (
+              <ActivityIndicator size={"large"} color={"orange"} />
+            ) : (
+              
+              <commentListContext.Provider value={[comments, commentsDispatch]}>
+                <dishElementContext.Provider value={[element, elementDispatch]}>
+                  <CommentList
+                    showDetailState={[showDetail, setShowDetail]}
+                    onRefreshComments={onRefreshComments}
+                  />
+                </dishElementContext.Provider>
+              </commentListContext.Provider>
+            )}
           </View>
         </>
       )}

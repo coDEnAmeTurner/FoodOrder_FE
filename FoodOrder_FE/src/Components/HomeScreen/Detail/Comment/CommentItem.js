@@ -10,12 +10,12 @@ import { useState } from "react";
 import RateBar from "../RateBar";
 
 
-const CommentItem = ({ item, index, seperators, showDetailState }) => {
+const CommentItem = ({ item, index, seperators, showDetailState,detail=true }) => {
   const [starCount, setStarCount] = useState(0);
   const [showDetail, setShowDetail] = showDetailState;
 
   return (
-    <View key={index} style={CommentStyle.commentItem}>
+    <View key={index} style={[CommentStyle.commentItem, detail?{}:{height:'auto'}]}>
       <View style={CommentStyle.metaData}>
         <Image
           source={
@@ -31,10 +31,11 @@ const CommentItem = ({ item, index, seperators, showDetailState }) => {
       </View>
       <TouchableOpacity style={CommentStyle.comContent} onPress={()=>{setShowDetail(!showDetail)}}>
         <View style={CommentStyle}>
-          <Text>{item?.content}</Text>
+          <Text numberOfLines={detail?6:undefined}>{item?.content}</Text>
         </View>
       </TouchableOpacity>
       <View style={CommentStyle.comBottom}>
+        {detail?<Text style={{alignSelf:'center',paddingLeft:5}}>Replies - ({item.childrenCount})</Text>:<></>}
         <RateBar
           containerStyle={CommentStyle.comRate}
           iconStyle={[CommentStyle.rateIcon, { margin: 3, fontSize: 24 }]}
