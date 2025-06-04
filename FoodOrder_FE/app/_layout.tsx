@@ -13,6 +13,10 @@ export default function RootLayout(){
             headerShown: true,
             headerTitle: 'Dish'
         }}/>
+        <Stack.Screen name='orders' options={{
+            headerShown: true,
+            headerTitle: 'Order Confirm'
+        }}/>
         <Stack.Screen name='index' />
     </Stack>
 }

@@ -24,10 +24,10 @@ import CommentListReducer, {
 } from "@/src/Context/CommentListContext";
 import {
   CommentStyle,
-  CommentDetailStyle
+  CommentDetailStyle,
 } from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
 import RateBar from "../RateBar";
-import CommentDetail  from "../Comment/CommentDetail";
+import CommentDetail from "../Comment/CommentDetail";
 
 const DishDetail = ({ dishId }) => {
   const [element, elementDispatch] = useReducer(DishElementReducer, []);
@@ -36,7 +36,7 @@ const DishDetail = ({ dishId }) => {
   const [imgPop, setImgPop] = useState(false);
   const [actDisplay, setActDisplay] = useState(false);
   const [starCount, setStarCount] = useState(0);
-  const [showDetail, setShowDetail] = useState(false);
+  const [detailID, setDetailID] = useState(NaN);
 
   const onRefreshComments = useCallback(async (id) => {
     try {
@@ -94,10 +94,13 @@ const DishDetail = ({ dishId }) => {
           <View style={DishDetailStyle.dishOverview}>
             <Popup
               animationType={"fade"}
-              visibleState={[showDetail, setShowDetail]}
+              visibleState={[detailID, setDetailID]}
               isSpotLight={true}
             >
-              <CommentDetail containerStyle={CommentDetailStyle.container}/>
+              <CommentDetail
+                containerStyle={CommentDetailStyle.container}
+                detailIDState={[detailID, setDetailID]}
+              />
             </Popup>
             <View style={DishDetailStyle.dishPicture}>
               <Popup
@@ -206,11 +209,10 @@ const DishDetail = ({ dishId }) => {
             {comments === null || element === null || comments.length < 1 ? (
               <ActivityIndicator size={"large"} color={"orange"} />
             ) : (
-              
               <commentListContext.Provider value={[comments, commentsDispatch]}>
                 <dishElementContext.Provider value={[element, elementDispatch]}>
                   <CommentList
-                    showDetailState={[showDetail, setShowDetail]}
+                    detailIDState={[detailID, setDetailID]}
                     onRefreshComments={onRefreshComments}
                   />
                 </dishElementContext.Provider>

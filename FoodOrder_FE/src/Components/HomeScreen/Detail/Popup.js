@@ -11,8 +11,9 @@ const Popup = ({
 
   return (
     <Modal
+      
       animationType={animationType}
-      visible={modalVisible}
+      visible={Boolean(modalVisible)}
       style={{
         width: 100,
         height: 100,
@@ -23,7 +24,7 @@ const Popup = ({
     >
       <Pressable
         onPress={(e) => {
-          setModalVisible(!modalVisible);
+          setModalVisible(typeof modalVisible === 'number'?NaN: false);
         }}
       >
         <View style={displayItemStyles.modalNameContainer}>

@@ -5,8 +5,7 @@ import { dishElementContext } from "@/src/Context/DishElementContext";
 import { commentListContext } from "@/src/Context/CommentListContext";
 
 
-const CommentList = React.memo(function useCommentList ({  showDetailState, onRefreshComments }) {
-  const [showDetail, setShowDetail] = showDetailState;
+const CommentList = React.memo(function useCommentList ({  detailIDState, onRefreshComments }) {
   const [comRefreshing, setComRefreshing] = useState(false);
 
   const [element, elementDispatch] = useContext(dishElementContext)
@@ -48,7 +47,7 @@ const CommentList = React.memo(function useCommentList ({  showDetailState, onRe
           item={item}
           index={index}
           separators={separators}
-          showDetailState={[showDetail, setShowDetail]}
+          detailIDState={detailIDState}
         />
       }}
       refreshControl={

@@ -105,7 +105,7 @@ const HomeItem = ({ separators, index, item }) => {
               ></Icon>
             </View>
           </Link>
-          <Link href={"/detail"} style={[displayItemStyles.linkWrapper]}>
+          <Link href={"/orders"} style={[displayItemStyles.linkWrapper]}>
             <View
               style={[
                 displayItemStyles.actionStyle,

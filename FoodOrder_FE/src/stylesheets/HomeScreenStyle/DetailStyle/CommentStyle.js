@@ -64,32 +64,35 @@ export const CommentStyle = StyleSheet.create({
     flexDirection:'row',
     justifyContent:'space-between',
     paddingRight:14,
+    paddingLeft:14,
     paddingTop:5,
     paddingBottom:7,
   },
 
   comRate: {
-    flex:0.55, 
+    flex:0.63, 
     flexDirection:"row",
     borderColor:'brown' ,
     borderWidth:3,
     borderRadius:25,
-    paddingTop:3,
-    paddingLeft:5,
+    paddingTop:1,
     backgroundColor:'#F5F5DF'
   }
 });
 
 export const CommentDetailStyle = StyleSheet.create({
   container: {
-    width:'90%',
+    width:'91%',
     height:'93%',
     borderColor:'brown',
     borderWidth:3,
     borderRadius:40,
     backgroundColor:'black',
     position:'absolute',
-    left:'5.3%',
-    top:'3.5%'
+    left:'4.5%',
+    top:'3.5%',
+    paddingTop:5,
+    paddingLeft:4,
+    paddingRight:4
   }
 })

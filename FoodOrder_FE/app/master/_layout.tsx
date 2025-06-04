@@ -14,8 +14,8 @@ export default function RootLayout() {
             iconName = focused ? 'home' : 'home-outline';
           } else if (route.name === 'favorite') {
             iconName = focused ? 'heart' : 'heart-outline';
-          } else if (route.name === 'cart') {
-            iconName = focused ? 'cart' : 'cart-outline';
+          } else if (route.name === 'order') {
+            iconName = focused ? 'reorder-four' : 'reorder-four-outline';
           } else if (route.name === 'profile') {
             iconName = focused ? 'person' : 'person-outline';
           }
@@ -30,8 +30,8 @@ export default function RootLayout() {
 
           if (route.name === 'index') {
             label = 'Home';
-          } else if (route.name === 'cart') {
-            label = 'Cart';
+          } else if (route.name === 'order') {
+            label = 'Order';
           } else if (route.name === 'profile') {
             label = 'Profile';
           }
@@ -47,8 +47,8 @@ export default function RootLayout() {
       <Tabs.Screen name="index" options={{
         title: 'Home'
       }} />
-      <Tabs.Screen name="cart" options={{
-        title: 'Cart'
+      <Tabs.Screen name="order" options={{
+        title: 'Order'
       }}/>
       <Tabs.Screen name="profile" options={{
         title: 'Profile'
