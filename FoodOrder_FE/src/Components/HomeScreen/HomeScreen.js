@@ -1,5 +1,5 @@
 /* eslint-disable react-hooks/exhaustive-deps */
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useReducer, useState } from "react";
 import { ActivityIndicator, RefreshControl, View } from "react-native";
 import homeScreenStyles, {
   homeContentStyles,
@@ -11,6 +11,11 @@ import axios from "axios";
 import QuerySection from "./QuerySection";
 import { DisplayType } from "./HomeCommon";
 import { HomeContent } from "./HomeContent";
+import OrderFormIDReducer, {
+  orderFormIDContext,
+} from "@/src/Context/OrderFormIDContext";
+import OrderForm from "../OrderScreen/OrderForm";
+import Popup from "./Detail/Popup";
 
 // Home Screen will display:
 //- A button to toggle between food and menu -> food and menu are state also
@@ -27,6 +32,10 @@ const HomeScreen = () => {
   const [available, setAvailable] = useState(true);
   const [daySession, setDaySession] = useState("");
   const [refreshing, setRefreshing] = useState(false);
+  const [orderFormID, orderFormIDDispatch] = useReducer(
+    OrderFormIDReducer,
+    NaN
+  );
 
   const GetDisplayList = useCallback(() => {
     async function GetDisplayList() {
@@ -71,43 +80,74 @@ const HomeScreen = () => {
   }, []);
 
   useEffect(() => {
-    GetDisplayList()
-
+    GetDisplayList();
   }, [searchStr, fromPrice, toPrice, available, daySession, displayType]);
 
-  useEffect(()=>{
+  useEffect(() => {
     if (refreshing === true) {
-      GetDisplayList()
-      setRefreshing(false)
+      GetDisplayList();
+      setRefreshing(false);
     }
-  }, [searchStr, fromPrice, toPrice, available, daySession, displayType, refreshing])
+  }, [
+    searchStr,
+    fromPrice,
+    toPrice,
+    available,
+    daySession,
+    displayType,
+    refreshing,
+  ]);
 
   return (
-    <View style={homeScreenStyles.homeScreen}>
-      <QuerySection
-        style={querySectionStyles.querySection}
-        searchFocus={searchFocus}
-        setSearchFocus={setSearchFocus}
-        searchStr={searchStr}
-        setSearchStr={setSearchStr}
-        displayType={displayType}
-        setDisplayType={setDisplayType}
-        priceState={[fromPrice, setFromPrice, toPrice, setToPrice]}
-        avaiState={[available, setAvailable]}
-        daySessionState={[daySession, setDaySession]}
-      />
+    <>
+      <orderFormIDContext.Provider value={[orderFormID, orderFormIDDispatch]}>
+        <View style={homeScreenStyles.homeScreen}>
+          <Popup
+            animationType={"slide"}
+            visibleState={[
+              orderFormID,
+              (dummy) => {
+                orderFormIDDispatch({ type: 'set', payload: null });
+              },
+            ]}
+            isSpotLight={true}
+          >
+            <OrderForm />
+          </Popup>
+          {!Boolean(orderFormID) ? (
+            <>
+              <QuerySection
+                style={querySectionStyles.querySection}
+                searchFocus={searchFocus}
+                setSearchFocus={setSearchFocus}
+                searchStr={searchStr}
+                setSearchStr={setSearchStr}
+                displayType={displayType}
+                setDisplayType={setDisplayType}
+                priceState={[fromPrice, setFromPrice, toPrice, setToPrice]}
+                avaiState={[available, setAvailable]}
+                daySessionState={[daySession, setDaySession]}
+              />
 
-      <View style={homeContentStyles.homeContent}>
-        {dishList === null && menuList === null ? (
-          <ActivityIndicator size={"large"} />
-        ) : (
-          <HomeContent
-            list={displayType === DisplayType.DISH ? dishList : menuList}
-            refreshState={[refreshing, setRefreshing]}
-          />
-        )}
-      </View>
-    </View>
+              <View style={homeContentStyles.homeContent}>
+                {dishList === null && menuList === null ? (
+                  <ActivityIndicator size={"large"} />
+                ) : (
+                  <HomeContent
+                    list={
+                      displayType === DisplayType.DISH ? dishList : menuList
+                    }
+                    refreshState={[refreshing, setRefreshing]}
+                  />
+                )}
+              </View>
+            </>
+          ) : (
+            <></>
+          )}
+        </View>
+      </orderFormIDContext.Provider>
+    </>
   );
 };
 

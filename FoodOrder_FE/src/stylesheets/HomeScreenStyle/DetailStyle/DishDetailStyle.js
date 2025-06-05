@@ -6,9 +6,9 @@ export const DishDetailStyle = StyleSheet.create({
         marginLeft:4,
         marginRight:4,
         borderRadius:15,
+        paddingLeft:'18%',
+        paddingTop:'1%',
         flexDirection:'row',
-        justifyContent:'center',
-        alignItems:'center'
     },
 
     dishDetail: {

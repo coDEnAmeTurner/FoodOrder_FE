@@ -28,6 +28,7 @@ import {
 } from "@/src/stylesheets/HomeScreenStyle/DetailStyle/CommentStyle";
 import RateBar from "../RateBar";
 import CommentDetail from "../Comment/CommentDetail";
+import OrderForm from "../../../OrderScreen/OrderForm";
 
 const DishDetail = ({ dishId }) => {
   const [element, elementDispatch] = useReducer(DishElementReducer, []);
@@ -37,6 +38,7 @@ const DishDetail = ({ dishId }) => {
   const [actDisplay, setActDisplay] = useState(false);
   const [starCount, setStarCount] = useState(0);
   const [detailID, setDetailID] = useState(NaN);
+  const [orderFormID, setOrderFormID] = useState(NaN);
 
   const onRefreshComments = useCallback(async (id) => {
     try {
@@ -92,6 +94,13 @@ const DishDetail = ({ dishId }) => {
       ) : (
         <>
           <View style={DishDetailStyle.dishOverview}>
+            <Popup
+              animationType={"slide"}
+              visibleState={[orderFormID, setOrderFormID]}
+              isSpotLight={true}
+            >
+              <OrderForm />
+            </Popup> 
             <Popup
               animationType={"fade"}
               visibleState={[detailID, setDetailID]}
@@ -163,6 +172,7 @@ const DishDetail = ({ dishId }) => {
           </View>
           <View style={DishDetailStyle.detailActions}>
             <TouchableOpacity
+              onPress={() => {setOrderFormID(element.id)}}
               style={[
                 DishDetailStyle.actionButton,
                 { backgroundColor: "green" },

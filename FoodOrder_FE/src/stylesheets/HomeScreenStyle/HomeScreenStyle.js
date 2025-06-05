@@ -29,6 +29,7 @@ export const displayItemStyles = StyleSheet.create({
   },
 
   modalNameContainer: { 
+    flex: 1,
     backgroundColor: "transparent", 
     height: "100%" 
   },
