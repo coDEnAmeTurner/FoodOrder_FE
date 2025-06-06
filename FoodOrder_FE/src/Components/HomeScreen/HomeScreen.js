@@ -102,19 +102,22 @@ const HomeScreen = () => {
     <>
       <orderFormIDContext.Provider value={[orderFormID, orderFormIDDispatch]}>
         <View style={homeScreenStyles.homeScreen}>
-          <Popup
-            animationType={"slide"}
-            visibleState={[
-              orderFormID,
-              (dummy) => {
-                orderFormIDDispatch({ type: 'set', payload: null });
-              },
-            ]}
-            isSpotLight={true}
-          >
-            <OrderForm />
-          </Popup>
-          {!Boolean(orderFormID) ? (
+          <View>
+            <Popup
+              animationType={"slide"}
+              visibleState={[
+                orderFormID,
+                (dummy) => {
+                  orderFormIDDispatch({ type: 'set', payload: null });
+                },
+              ]}
+              isSpotLight={true}
+
+            >
+              <OrderForm />
+            </Popup>
+          </View>
+          {/* {!Boolean(orderFormID) ? ( */}
             <>
               <QuerySection
                 style={querySectionStyles.querySection}
@@ -142,9 +145,9 @@ const HomeScreen = () => {
                 )}
               </View>
             </>
-          ) : (
+          {/* ) : (
             <></>
-          )}
+          )} */}
         </View>
       </orderFormIDContext.Provider>
     </>

@@ -24,7 +24,7 @@ export const HomeContent = React.memo(function useHomeContent({ list, refreshSta
         </View>
       )}
       renderItem={({ item, index, separators }) => (
-        <HomeItem separators={separators} index={index} item={item} />
+        <HomeItem fromOrderForm={false} separators={separators} index={index} item={item} />
       )}
       refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} 

@@ -29,6 +29,9 @@ import {
 import RateBar from "../RateBar";
 import CommentDetail from "../Comment/CommentDetail";
 import OrderForm from "../../../OrderScreen/OrderForm";
+import OrderFormIDReducer, {
+  orderFormIDContext,
+} from "@/src/Context/OrderFormIDContext";
 
 const DishDetail = ({ dishId }) => {
   const [element, elementDispatch] = useReducer(DishElementReducer, []);
@@ -38,7 +41,7 @@ const DishDetail = ({ dishId }) => {
   const [actDisplay, setActDisplay] = useState(false);
   const [starCount, setStarCount] = useState(0);
   const [detailID, setDetailID] = useState(NaN);
-  const [orderFormID, setOrderFormID] = useState(NaN);
+  const [orderFormID, orderFormIDDispatch] = useReducer(OrderFormIDReducer, null);
 
   const onRefreshComments = useCallback(async (id) => {
     try {
@@ -85,153 +88,164 @@ const DishDetail = ({ dishId }) => {
   }, [dishId]);
 
   return (
-    <View style={DishDetailStyle.dishDetail}>
-      {element === null ? (
-        <View>
-          <ActivityIndicator size={"large"} color={"orange"} />
-          <Text style={{ textAlign: "center" }}> ...Loading</Text>
-        </View>
-      ) : (
-        <>
-          <View style={DishDetailStyle.dishOverview}>
-            <Popup
-              animationType={"slide"}
-              visibleState={[orderFormID, setOrderFormID]}
-              isSpotLight={true}
-            >
-              <OrderForm />
-            </Popup> 
-            <Popup
-              animationType={"fade"}
-              visibleState={[detailID, setDetailID]}
-              isSpotLight={true}
-            >
-              <CommentDetail
-                containerStyle={CommentDetailStyle.container}
-                detailIDState={[detailID, setDetailID]}
-              />
-            </Popup>
-            <View style={DishDetailStyle.dishPicture}>
+    <orderFormIDContext.Provider value={[orderFormID, orderFormIDDispatch]}>
+      <View style={DishDetailStyle.dishDetail}>
+        {element === null ? (
+          <View>
+            <ActivityIndicator size={"large"} color={"orange"} />
+            <Text style={{ textAlign: "center" }}> ...Loading</Text>
+          </View>
+        ) : (
+          <>
+            <View style={DishDetailStyle.dishOverview}>
               <Popup
-                animationType={"fade"}
-                visibleState={[imgPop, setImgPop]}
+                animationType={"slide"}
+                visibleState={[
+                  orderFormID,
+                  () => orderFormIDDispatch({ type: "set", payload: null }),
+                ]}
                 isSpotLight={true}
               >
-                <View style={displayItemStyles.imgPopContent}>
+                <OrderForm />
+              </Popup>
+              <Popup
+                animationType={"fade"}
+                visibleState={[detailID, setDetailID]}
+                isSpotLight={true}
+              >
+                <CommentDetail
+                  containerStyle={CommentDetailStyle.container}
+                  detailIDState={[detailID, setDetailID]}
+                />
+              </Popup>
+              <View style={DishDetailStyle.dishPicture}>
+                <Popup
+                  animationType={"fade"}
+                  visibleState={[imgPop, setImgPop]}
+                  isSpotLight={true}
+                >
+                  <View style={displayItemStyles.imgPopContent}>
+                    <Image
+                      source={
+                        element && element.picture
+                          ? { uri: element.picture.substring(PREFIX.length) }
+                          : require("@/assets/images/favicon.png")
+                      }
+                      style={DishDetailStyle.imageLargeComp}
+                      resizeMode="contain"
+                    />
+                  </View>
+                </Popup>
+                <Popup
+                  isSpotLight={true}
+                  animationType={"slide"}
+                  visibleState={[actDisplay, setActDisplay]}
+                >
+                  <RateBar
+                    starState={[starCount, setStarCount]}
+                    containerStyle={CommentStyle.ratePopup}
+                    iconStyle={CommentStyle.rateIcon}
+                  />
+                </Popup>
+                <TouchableOpacity
+                  onPressIn={() => {
+                    setImgPop(!imgPop);
+                  }}
+                >
                   <Image
                     source={
                       element && element.picture
                         ? { uri: element.picture.substring(PREFIX.length) }
                         : require("@/assets/images/favicon.png")
                     }
-                    style={DishDetailStyle.imageLargeComp}
-                    resizeMode="contain"
+                    style={DishDetailStyle.imageComp}
                   />
-                </View>
-              </Popup>
-              <Popup
-                isSpotLight={true}
-                animationType={"slide"}
-                visibleState={[actDisplay, setActDisplay]}
-              >
-                <RateBar
-                  starState={[starCount, setStarCount]}
-                  containerStyle={CommentStyle.ratePopup}
-                  iconStyle={CommentStyle.rateIcon}
+                </TouchableOpacity>
+              </View>
+              <View style={DishDetailStyle.dishDescr}>
+                <Overview
+                  allowPopup={true}
+                  item={element}
+                  pressGuide={false}
+                  nameSize={30}
+                  shop={shopOwner}
+                  descrSize={17}
+                  descContentStyle={{
+                    paddingLeft: 9,
+                    paddingTop: 9,
+                  }}
                 />
-              </Popup>
+              </View>
+            </View>
+            <View style={DishDetailStyle.detailActions}>
               <TouchableOpacity
+                onPress={() => {
+                  orderFormIDDispatch({type:'set', payload:{ id: element.id, itemType: "DISH"}});
+                }}
+                style={[
+                  DishDetailStyle.actionButton,
+                  { backgroundColor: "green" },
+                ]}
+              >
+                <Text style={displayItemStyles.actionText}>Order</Text>
+                <Icon
+                  name="cash-outline"
+                  style={displayItemStyles.actionIcon}
+                ></Icon>
+              </TouchableOpacity>
+              <TouchableOpacity
+                style={[
+                  DishDetailStyle.actionButton,
+                  { backgroundColor: "#FF8C00" },
+                ]}
                 onPressIn={() => {
-                  setImgPop(!imgPop);
+                  setActDisplay(!actDisplay);
                 }}
               >
-                <Image
-                  source={
-                    element && element.picture
-                      ? { uri: element.picture.substring(PREFIX.length) }
-                      : require("@/assets/images/favicon.png")
-                  }
-                  style={DishDetailStyle.imageComp}
-                />
+                <Text>Rate </Text>
+                <Icon
+                  name="star-outline"
+                  style={displayItemStyles.actionIcon}
+                ></Icon>
               </TouchableOpacity>
             </View>
-            <View style={DishDetailStyle.dishDescr}>
-              <Overview
-                allowPopup={true}
-                item={element}
-                pressGuide={false}
-                nameSize={30}
-                shop={shopOwner}
-                descrSize={17}
-                descContentStyle={{
-                  paddingLeft: 9,
-                  paddingTop: 9,
-                }}
-              />
+            <View style={DishDetailStyle.dishContent}>
+              <View style={{ alignItems: "center", marginBottom: 7 }}>
+                <Text
+                  style={{
+                    textAlign: "center",
+                    fontSize: 25,
+                    fontWeight: "bold",
+                    color: "brown",
+                    borderColor: "red",
+                    borderWidth: 1,
+                    width: "52%",
+                  }}
+                >
+                  Comment Section
+                </Text>
+              </View>
+              {comments === null || element === null || comments.length < 1 ? (
+                <ActivityIndicator size={"large"} color={"orange"} />
+              ) : (
+                <commentListContext.Provider
+                  value={[comments, commentsDispatch]}
+                >
+                  <dishElementContext.Provider
+                    value={[element, elementDispatch]}
+                  >
+                    <CommentList
+                      detailIDState={[detailID, setDetailID]}
+                      onRefreshComments={onRefreshComments}
+                    />
+                  </dishElementContext.Provider>
+                </commentListContext.Provider>
+              )}
             </View>
-          </View>
-          <View style={DishDetailStyle.detailActions}>
-            <TouchableOpacity
-              onPress={() => {setOrderFormID(element.id)}}
-              style={[
-                DishDetailStyle.actionButton,
-                { backgroundColor: "green" },
-              ]}
-            >
-              <Text style={displayItemStyles.actionText}>Order</Text>
-              <Icon
-                name="cash-outline"
-                style={displayItemStyles.actionIcon}
-              ></Icon>
-            </TouchableOpacity>
-            <TouchableOpacity
-              style={[
-                DishDetailStyle.actionButton,
-                { backgroundColor: "#FF8C00" },
-              ]}
-              onPressIn={() => {
-                setActDisplay(!actDisplay);
-              }}
-            >
-              <Text>Rate </Text>
-              <Icon
-                name="star-outline"
-                style={displayItemStyles.actionIcon}
-              ></Icon>
-            </TouchableOpacity>
-          </View>
-          <View style={DishDetailStyle.dishContent}>
-            <View style={{ alignItems: "center", marginBottom: 7 }}>
-              <Text
-                style={{
-                  textAlign: "center",
-                  fontSize: 25,
-                  fontWeight: "bold",
-                  color: "brown",
-                  borderColor: "red",
-                  borderWidth: 1,
-                  width: "52%",
-                }}
-              >
-                Comment Section
-              </Text>
-            </View>
-            {comments === null || element === null || comments.length < 1 ? (
-              <ActivityIndicator size={"large"} color={"orange"} />
-            ) : (
-              <commentListContext.Provider value={[comments, commentsDispatch]}>
-                <dishElementContext.Provider value={[element, elementDispatch]}>
-                  <CommentList
-                    detailIDState={[detailID, setDetailID]}
-                    onRefreshComments={onRefreshComments}
-                  />
-                </dishElementContext.Provider>
-              </commentListContext.Provider>
-            )}
-          </View>
-        </>
-      )}
-    </View>
+          </>
+        )}
+      </View>
+    </orderFormIDContext.Provider>
   );
 };
 

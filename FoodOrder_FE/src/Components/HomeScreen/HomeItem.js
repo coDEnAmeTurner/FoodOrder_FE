@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { Link } from "expo-router";
 
-
 import Animated, {
   useSharedValue,
   useAnimatedStyle,
@@ -20,7 +19,7 @@ import Icon from "@react-native-vector-icons/ionicons";
 import Overview from "./Detail/Overview";
 import { orderFormIDContext } from "@/src/Context/OrderFormIDContext";
 
-const HomeItem = ({ separators, index, item }) => {
+const HomeItem = ({ separators, index, item, fromOrderForm = false }) => {
   const [showActions, setShowActions] = useState(ActionsShowType.NOT_SHOW);
   const [parentWidth, setParentWidth] = useState(0);
   const contentPercent = useSharedValue(0.95);
@@ -50,12 +49,14 @@ const HomeItem = ({ separators, index, item }) => {
   };
 
   useEffect(() => {
-    if (showActions === ActionsShowType.SHOW) {
-      contentPercent.value = withTiming(0.65, { duration: 300 });
-      actionsPercent.value = withTiming(0.27, { duration: 300 });
-    } else {
-      contentPercent.value = withTiming(0.95, { duration: 300 });
-      actionsPercent.value = withTiming(0.1, { duration: 300 });
+    if (!fromOrderForm) {
+      if (showActions === ActionsShowType.SHOW) {
+        contentPercent.value = withTiming(0.65, { duration: 300 });
+        actionsPercent.value = withTiming(0.27, { duration: 300 });
+      } else {
+        contentPercent.value = withTiming(0.95, { duration: 300 });
+        actionsPercent.value = withTiming(0.1, { duration: 300 });
+      }
     }
   }, [actionsPercent, contentPercent, showActions]);
 
@@ -80,6 +81,7 @@ const HomeItem = ({ separators, index, item }) => {
                 style={{
                   borderRadius: 20,
                 }}
+                disabled={fromOrderForm}
               >
                 <Overview item={item} />
               </TouchableHighlight>
@@ -96,7 +98,7 @@ const HomeItem = ({ separators, index, item }) => {
             </View>
           </View>
         </Animated.View>
-        {showActions === ActionsShowType.SHOW ? (
+        {!fromOrderForm && showActions === ActionsShowType.SHOW ? (
           <Animated.View
             style={[displayItemStyles.outerActionsStyle, actionsWidthStyle]}
           >
@@ -129,7 +131,10 @@ const HomeItem = ({ separators, index, item }) => {
               ]}
               onPress={() => {
                 // console.log(orderFormIDDispatch)
-                orderFormIDDispatch({type:'set', payload: {id:item?.id, itemType:'DISH' }});
+                orderFormIDDispatch({
+                  type: "set",
+                  payload: { id: item?.id, itemType: "DISH" },
+                });
               }}
             >
               <View

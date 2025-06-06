@@ -4,6 +4,7 @@ import { Stack } from "expo-router";
 export default function RootLayout(){
     return <Stack initialRouteName="master" screenOptions={{
         headerShown:false,
+        gestureDirection:"horizontal",
         headerStyle:HeaderStyle.header,
         headerTitleStyle:HeaderStyle.headerTitle,
         headerTintColor:"white"
