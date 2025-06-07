@@ -1,7 +1,6 @@
-import { View, Modal, Pressable, TouchableOpacity, Text } from "react-native";
-import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenStyle";
-import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
-import { GestureHandlerRootView } from "react-native-gesture-handler";
+import {  Modal, Animated, PanResponder, View, Text } from "react-native";
+import { useEffect, useRef } from "react";
+import Icon from "@react-native-vector-icons/ionicons";
 
 const Popup = ({
   animationType,
@@ -10,6 +9,39 @@ const Popup = ({
   isSpotLight = false,
 }) => {
   const [modalVisible, setModalVisible] = visibleState || [null, null];
+  const pan = useRef(new Animated.Value(0));
+
+  useEffect(() => {
+    if (modalVisible) {
+      pan.current.setValue(0); // Reset the position when modal becomes visible
+    }
+  },[modalVisible])
+
+  const panResponder = useRef(
+    PanResponder.create({
+      onStartShouldSetPanResponder: (e, gesture) => {if(e.nativeEvent.locationY >= 788) return true; return false},
+      onMoveShouldSetPanResponder: (e,gesture) => {if(e.nativeEvent.locationY >= 788) return true; return false},
+      onPanResponderMove: Animated.event([null, {dy: pan.current}], {useNativeDriver:false}),
+      onPanResponderRelease: (event, gestureState) => {
+        if (Math.abs(gestureState.vy) > 3) {
+          Animated.timing(pan.current, {
+            toValue: gestureState.dy > 0 ? 1000 : -1000,
+            duration: 240,
+            useNativeDriver: false,
+          }).start(()=>{
+            setModalVisible(typeof modalVisible === "number" ? NaN : false);
+          });
+          
+        }
+        else {
+          pan.current.setValue(0); // Reset the position if the gesture is not strong enough
+        }
+      },
+      // onMoveShouldSetPanResponderCapture: () => true,
+      // onShouldBlockNativeResponder: () => true,
+
+    }),
+  ).current;
 
   return (
     <Modal
@@ -26,16 +58,17 @@ const Popup = ({
       }
       transparent={isSpotLight ? false : true}
     >
-      <GestureHandlerRootView >
-        <Swipeable
-          style={{ flex: 1 }}
-          onSwipeableClose={(e) => {
-            setModalVisible(typeof modalVisible === "number" ? NaN : false);
-          }}
-        >
-          <View style={displayItemStyles.modalNameContainer}>{children}</View>
-        </Swipeable>
-      </GestureHandlerRootView>
+      <Animated.View
+        {...panResponder.panHandlers}
+        style={[{ flex: 1 }, {transform:[{translateY: pan.current}]}]}
+      >
+          {children}
+          <View style={{position:'absolute',bottom:20, left:'40%', flexDirection:'row', width:'100%'}}>
+            <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>Swipe</Text>
+            <View style={{width:'2%'}}></View>
+            <Icon name="chevron-up-circle-outline" style={{fontSize:25, color:'white'}}></Icon>
+          </View>
+      </Animated.View>
     </Modal>
   );
 };

@@ -32,7 +32,7 @@ const OrderForm = ({
   const [purchaseType, setPurchaseType] = useState(
     fromConfirm ? confPurchaseType : PurchaseType.CASH
   );
-  const [note, setNote] = useState(fromConfirm ? confNote : "");
+  const [note, setNote] = useState(fromConfirm ? confNote : "something else something else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomething else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else ");
   const [shipAddress, setShipAddress] = useState(!fromConfirm? 'login user address here!!!' : '');
 
   const typeSwitch = useRef(0);
@@ -100,14 +100,14 @@ const OrderForm = ({
       ) : (
         <>
           <View style={{ flex: 5.5 }}>
-            <ScrollView nestedScrollEnabled={true} style={{ width: "100%" }}>
+            <ScrollView onMoveShouldSetResponder={()=>false}>
               <HomeItem
                 fromOrderForm={true}
                 item={item}
                 index={0}
                 separators={{}}
               />
-              <View style={OrderFormControl.control}>
+              <View style={[OrderFormControl.control, {height:'12%'}]}>
                 <Text style={OrderFormControl.label}>Số lượng: </Text>
                 <TextInput
                   editable={!fromConfirm}
@@ -117,7 +117,7 @@ const OrderForm = ({
                   style={OrderFormControl.value}
                 />
               </View>
-              <View style={OrderFormControl.control}>
+              <View style={[OrderFormControl.control, {height:'12%'}]}>
                 <Text style={OrderFormControl.label}>PP thanh toán: </Text>
                 <TouchableOpacity
                   disabled={fromConfirm}
@@ -155,10 +155,10 @@ const OrderForm = ({
               >
                 <Text style={OrderFormControl.label}>Địa chỉ: </Text>
                 <TextInput
+                  scrollEnabled={true}
                   editable={!fromConfirm}
                   value={shipAddress}
                   onChangeText={(v) => setShipAddress(v)}
-                  multiline={true}
                   style={{
                     width: "100%",
                     borderColor: "brown",
@@ -183,9 +183,10 @@ const OrderForm = ({
                 <Text style={OrderFormControl.label}>Ghi chú: </Text>
                 <TextInput
                   editable={!fromConfirm}
+                  multiline={true}
+                  numberOfLines={9}
                   value={note}
                   onChangeText={(v) => setNote(v)}
-                  multiline={true}
                   style={{
                     width: "100%",
                     borderColor: "brown",

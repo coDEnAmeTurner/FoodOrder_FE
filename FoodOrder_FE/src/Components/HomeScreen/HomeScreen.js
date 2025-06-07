@@ -104,7 +104,7 @@ const HomeScreen = () => {
         <View style={homeScreenStyles.homeScreen}>
           <View>
             <Popup
-              animationType={"slide"}
+              animationType={"fade"}
               visibleState={[
                 orderFormID,
                 (dummy) => {
