@@ -4,20 +4,21 @@ import {
   TextInput,
   TouchableOpacity,
   View,
+  ScrollView,
 } from "react-native";
 import {
   OrderFormContainer,
   OrderFormControl,
 } from "@/src/stylesheets/HomeScreenStyle/OrderStyle/OrderFormStyle";
-import { useContext, useEffect, useState } from "react";
+import { useContext, useEffect, useState , useRef } from "react";
 import { orderFormIDContext } from "@/src/Context/OrderFormIDContext";
 import HomeItem from "../HomeScreen/HomeItem";
 import { authApi, AUTH_TOKEN } from "@/src/APIs/AxiosInst";
 import Endpoints from "@/src/APIs/Endpoints";
 import { PurchaseType } from "@/src/Components/Common";
-import { ScrollView } from "react-native";
 import Icon from "@react-native-vector-icons/ionicons";
 import { Link } from "expo-router";
+import { useRouter } from "expo-router";
 
 const OrderForm = ({
   fromConfirm = false,
@@ -32,6 +33,41 @@ const OrderForm = ({
     fromConfirm ? confPurchaseType : PurchaseType.CASH
   );
   const [note, setNote] = useState(fromConfirm ? confNote : "");
+  const [shipAddress, setShipAddress] = useState(!fromConfirm? 'login user address here!!!' : '');
+
+  const typeSwitch = useRef(0);
+  const order = useRef(null);
+
+  const router = useRouter();
+
+  const createOrder = (itemType) => {
+    async function create() {
+      try {
+        const resp = await authApi(AUTH_TOKEN).post(
+          itemType === "DISH"
+            ? Endpoints.CREATE_DISH_ORDER()
+            : Endpoints.CREATE_MENU_ORDER(),
+          {
+            itemId: item.id,
+            count: count,
+            purchaseType: purchaseType,
+            shipAddress: shipAddress,
+            note: note,
+          }
+        );
+
+        if (resp.status === 201) {
+          order.current = resp.data;
+        } else {
+          throw Error(resp.data);
+        }
+      } catch (ex) {
+        console.error(Error(ex).message);
+      }
+    }
+
+    create();
+  };
 
   useEffect(() => {
     if (orderFormID && !Number.isNaN(orderFormID.id)) {
@@ -64,7 +100,7 @@ const OrderForm = ({
       ) : (
         <>
           <View style={{ flex: 5.5 }}>
-            <ScrollView style={{ width: "100%" }}>
+            <ScrollView nestedScrollEnabled={true} style={{ width: "100%" }}>
               <HomeItem
                 fromOrderForm={true}
                 item={item}
@@ -87,10 +123,10 @@ const OrderForm = ({
                   disabled={fromConfirm}
                   style={OrderFormControl.value}
                   onPress={() => {
+                    if (typeSwitch.current === 2) typeSwitch.current -= 3;
+                    ++typeSwitch.current;
                     setPurchaseType(
-                      purchaseType === PurchaseType.CASH
-                        ? PurchaseType.BANKING
-                        : PurchaseType.CASH
+                      Object.values(PurchaseType)[typeSwitch.current]
                     );
                   }}
                 >
@@ -104,6 +140,33 @@ const OrderForm = ({
                     {purchaseType}
                   </Text>
                 </TouchableOpacity>
+              </View>
+              <View
+                style={{
+                  flex: 1,
+                  width: "100%",
+                  borderColor: "brown",
+                  borderWidth: 3,
+                  borderRadius: 20,
+                  backgroundColor: "white",
+                  padding: 10,
+                  marginTop: 10,
+                }}
+              >
+                <Text style={OrderFormControl.label}>Địa chỉ: </Text>
+                <TextInput
+                  editable={!fromConfirm}
+                  value={shipAddress}
+                  onChangeText={(v) => setShipAddress(v)}
+                  multiline={true}
+                  style={{
+                    width: "100%",
+                    borderColor: "brown",
+                    borderWidth: 3,
+                    borderRadius: 20,
+                    paddingLeft: 11,
+                  }}
+                />
               </View>
               <View
                 style={{
@@ -190,7 +253,50 @@ const OrderForm = ({
               </Link>
             ) : (
               <>
-                <Link href={''}><Text style={{color:'white', textAlign:'center'}}>ORDER</Text></Link>
+                <TouchableOpacity
+                  onPress={() => {
+                    createOrder(orderFormID.itemType);
+                    if(order.current) {
+                      router.navigate({
+                        pathname: "",
+                        params: {
+                        },
+                      })
+                    }
+                  }}
+                  style={{
+                    width: "100%",
+                    height: "87%",
+                    borderRadius: 100,
+                    backgroundColor: "green",
+                  }}
+                >
+                  <View
+                    style={{
+                      width: "100%",
+                      flexDirection: "row",
+                      justifyContent: "center",
+                      alignItems: "center",
+                      paddingTop: "3%",
+                    }}
+                  >
+                    <Text
+                      style={{
+                        fontSize: 17,
+                        fontWeight: "bold",
+                        color: "white",
+                        textAlign: "center",
+                      }}
+                    >
+                      ORDER
+                    </Text>
+                    <View style={{ width: "2%" }}></View>
+                    <Icon
+                      style={{ fontSize: 30, color: "white" }}
+                      name="checkmark-done-circle-outline"
+                    ></Icon>
+                  </View>
+                </TouchableOpacity>
               </>
             )}
           </View>

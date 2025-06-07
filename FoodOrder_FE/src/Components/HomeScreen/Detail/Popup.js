@@ -1,5 +1,7 @@
 import { View, Modal, Pressable, TouchableOpacity, Text } from "react-native";
 import { displayItemStyles } from "@/src/stylesheets/HomeScreenStyle/HomeScreenStyle";
+import Swipeable from "react-native-gesture-handler/ReanimatedSwipeable";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 const Popup = ({
   animationType,
@@ -24,15 +26,16 @@ const Popup = ({
       }
       transparent={isSpotLight ? false : true}
     >
-      <Pressable
-        style={{ flex: 1 }}
-        onPress={(e) => {
-          setModalVisible(typeof modalVisible === "number" ? NaN : false);
-        }}
-      >
-        
-        <View style={displayItemStyles.modalNameContainer}>{children}</View>
-      </Pressable>
+      <GestureHandlerRootView >
+        <Swipeable
+          style={{ flex: 1 }}
+          onSwipeableClose={(e) => {
+            setModalVisible(typeof modalVisible === "number" ? NaN : false);
+          }}
+        >
+          <View style={displayItemStyles.modalNameContainer}>{children}</View>
+        </Swipeable>
+      </GestureHandlerRootView>
     </Modal>
   );
 };

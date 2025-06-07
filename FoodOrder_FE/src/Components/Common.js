@@ -1,4 +1,5 @@
 export const PurchaseType = {
-    BANKING: 'BANKING',
-    CASH: 'CASH'
+    CASH: 'CASH',
+    MOMO: 'MOMO',
+    VNPAY: 'VNPAY',
 }

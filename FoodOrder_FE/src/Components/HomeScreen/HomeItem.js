@@ -130,7 +130,6 @@ const HomeItem = ({ separators, index, item, fromOrderForm = false }) => {
                 { position: "relative", right: "50%" },
               ]}
               onPress={() => {
-                // console.log(orderFormIDDispatch)
                 orderFormIDDispatch({
                   type: "set",
                   payload: { id: item?.id, itemType: "DISH" },

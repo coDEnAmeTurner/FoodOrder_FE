@@ -44,11 +44,14 @@ const Overview = ({
             />
           </>
         ) : (
-          <NameText
-            numberOfLines={1}
-            name={item.name}
-            style={[displayItemStyles.displayName, { fontSize: nameSize }]}
-          />
+          <View>
+            <NameText
+              numberOfLines={1}
+              name={item.name}
+              style={[displayItemStyles.displayName, { fontSize: nameSize }]}
+            />
+            <Text numberOfLines={1} style={{fontStyle:'italic',textDecorationLine:'underline', textDecorationColor:'blue'}}>{item.shop.user.username}</Text>
+          </View>
         )}
       </View>
       {pressGuide ? (
