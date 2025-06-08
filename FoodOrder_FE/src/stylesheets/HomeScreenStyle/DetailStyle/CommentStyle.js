@@ -11,19 +11,17 @@ export const CommentStyle = StyleSheet.create({
   },
 
   ratePopup: {
+    flex:1,
     backgroundColor:'#F5F5DF',
     borderColor:'brown',
     borderWidth:5,
-    width:'60%',
-    height:'6%',
-    position:'absolute',
-    bottom:490,
-    left:'20%',
-    borderRadius:30,
-    flex:1,
+    borderRadius:40,
     flexDirection:'row',
     justifyContent:'space-between',
-    paddingLeft:15
+    alignItems:'center',
+    paddingLeft:'10%',
+    marginTop:'75%',
+    marginBottom:'115%'
   },
 
   rateIcon: {
@@ -82,17 +80,12 @@ export const CommentStyle = StyleSheet.create({
 
 export const CommentDetailStyle = StyleSheet.create({
   container: {
-    width:'91%',
-    height:'93%',
     borderColor:'brown',
     borderWidth:3,
     borderRadius:40,
     backgroundColor:'black',
-    position:'absolute',
-    left:'4.5%',
-    top:'3.5%',
-    paddingTop:5,
-    paddingLeft:4,
-    paddingRight:4
+    width:'105%',
+    flex:1,
+    padding:7,
   }
 })

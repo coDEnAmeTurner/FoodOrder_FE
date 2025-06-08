@@ -25,6 +25,7 @@ const OrderForm = ({
   confCount,
   confPurchaseType,
   confNote,
+  confShipAddress
 }) => {
   const [orderFormID, orderFormIDDispatch] = useContext(orderFormIDContext);
   const [item, setItem] = useState(null);
@@ -32,8 +33,8 @@ const OrderForm = ({
   const [purchaseType, setPurchaseType] = useState(
     fromConfirm ? confPurchaseType : PurchaseType.CASH
   );
-  const [note, setNote] = useState(fromConfirm ? confNote : "something else something else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomething else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else ");
-  const [shipAddress, setShipAddress] = useState(!fromConfirm? 'login user address here!!!' : '');
+  const [note, setNote] = useState(fromConfirm ? confNote : "something else something else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethsomething else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethsomething else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethsomething else somethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomethingsomething else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else something else END!!!");
+  const [shipAddress, setShipAddress] = useState(!fromConfirm? 'login user address here!!!' : confShipAddress);
 
   const typeSwitch = useRef(0);
   const order = useRef(null);
@@ -99,15 +100,15 @@ const OrderForm = ({
         <ActivityIndicator size={"large"} color={"orange"} />
       ) : (
         <>
-          <View style={{ flex: 5.5 }}>
-            <ScrollView onMoveShouldSetResponder={()=>false}>
+          <View style={{flex:12}}>
+            <ScrollView style={{flex:1}} onMoveShouldSetResponder={()=>false}>
               <HomeItem
                 fromOrderForm={true}
                 item={item}
                 index={0}
                 separators={{}}
               />
-              <View style={[OrderFormControl.control, {height:'12%'}]}>
+              <View style={[OrderFormControl.control, {flex:0.5}]}>
                 <Text style={OrderFormControl.label}>Số lượng: </Text>
                 <TextInput
                   editable={!fromConfirm}
@@ -117,7 +118,7 @@ const OrderForm = ({
                   style={OrderFormControl.value}
                 />
               </View>
-              <View style={[OrderFormControl.control, {height:'12%'}]}>
+              <View style={[OrderFormControl.control, {flex:0.5}]}>
                 <Text style={OrderFormControl.label}>PP thanh toán: </Text>
                 <TouchableOpacity
                   disabled={fromConfirm}
@@ -143,7 +144,7 @@ const OrderForm = ({
               </View>
               <View
                 style={{
-                  flex: 1,
+                  flex:0.5,
                   width: "100%",
                   borderColor: "brown",
                   borderWidth: 3,
@@ -160,6 +161,7 @@ const OrderForm = ({
                   value={shipAddress}
                   onChangeText={(v) => setShipAddress(v)}
                   style={{
+                    flex:1,
                     width: "100%",
                     borderColor: "brown",
                     borderWidth: 3,
@@ -170,7 +172,7 @@ const OrderForm = ({
               </View>
               <View
                 style={{
-                  flex: 1,
+                  flex:2.5,
                   width: "100%",
                   borderColor: "brown",
                   borderWidth: 3,
@@ -178,29 +180,31 @@ const OrderForm = ({
                   backgroundColor: "white",
                   padding: 10,
                   marginTop: 10,
+                  flexGrow:1,
                 }}
               >
-                <Text style={OrderFormControl.label}>Ghi chú: </Text>
-                <TextInput
-                  editable={!fromConfirm}
-                  multiline={true}
-                  numberOfLines={9}
-                  value={note}
-                  onChangeText={(v) => setNote(v)}
-                  style={{
-                    width: "100%",
-                    borderColor: "brown",
-                    borderWidth: 3,
-                    borderRadius: 20,
-                    paddingLeft: 11,
-                  }}
-                />
+                  <Text style={OrderFormControl.label}>Ghi chú: </Text>
+                  <TextInput
+                    editable={!fromConfirm}
+                    scrollEnabled={true}
+                    multiline={true}
+                    // numberOfLines={9}
+                    value={note}
+                    onChangeText={(v) => setNote(v)}
+                    style={{
+                      width: "100%",
+                      borderColor: "brown",
+                      borderWidth: 3,
+                      borderRadius: 20,
+                      paddingLeft: 11,
+                    }}
+                  />
               </View>
             </ScrollView>
           </View>
           <View
             style={{
-              flex: 0.5,
+              flex: 1,
               borderTopWidth: 1,
               borderColor: "red",
               paddingTop: "4.5%",
@@ -214,6 +218,7 @@ const OrderForm = ({
                     itemType: orderFormID.itemType,
                     id: item.id,
                     count: count,
+                    shipAddress: shipAddress,
                     purchaseType: purchaseType,
                     note: note,
                   },

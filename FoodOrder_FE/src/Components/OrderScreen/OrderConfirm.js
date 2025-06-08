@@ -11,7 +11,7 @@ import OrderFormIDReducer, {
 } from "@/src/Context/OrderFormIDContext";
 
 const OrderConfirm = () => {
-  const { note, purchaseType, count, id, itemType } =
+  const { note, purchaseType, count, id, itemType, shipAddress } =
     useLocalSearchParams();
     const [orderFormID, orderFormIDDispatch] = useReducer(OrderFormIDReducer, {
         id: id,
@@ -27,6 +27,7 @@ const OrderConfirm = () => {
             confCount={count}
             confNote={note}
             confPurchaseType={purchaseType}
+            confShipAddress={shipAddress}
         />
       </View>
     </orderFormIDContext.Provider>

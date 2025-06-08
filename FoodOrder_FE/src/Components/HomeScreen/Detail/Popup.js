@@ -38,6 +38,7 @@ const Popup = ({
         }
       },
       // onMoveShouldSetPanResponderCapture: () => true,
+      // onStartShouldSetPanResponderCapture: () => true,
       // onShouldBlockNativeResponder: () => true,
 
     }),
@@ -62,11 +63,13 @@ const Popup = ({
         {...panResponder.panHandlers}
         style={[{ flex: 1 }, {transform:[{translateY: pan.current}]}]}
       >
-          {children}
-          <View style={{position:'absolute',bottom:20, left:'40%', flexDirection:'row', width:'100%'}}>
-            <Text style={{fontSize:20, fontWeight:'bold', color:'white'}}>Swipe</Text>
-            <View style={{width:'2%'}}></View>
-            <Icon name="chevron-up-circle-outline" style={{fontSize:25, color:'white'}}></Icon>
+          <View style={{flex:15, alignItems:'center', justifyContent:'center', padding:27}}>
+            {children}
+          </View>
+          <View pointerEvents="none" style={{flex:1, flexDirection:'row', justifyContent:'center',borderColor:'red',borderTopWidth:1}}>
+            <Text  style={{fontSize:20, fontWeight:'bold', color:'white', }}>Swipe</Text>
+            <View  style={{width:'2%'}}></View>
+            <Icon  name="chevron-up-circle-outline" style={{fontSize:25, color:'white'}}></Icon>
           </View>
       </Animated.View>
     </Modal>

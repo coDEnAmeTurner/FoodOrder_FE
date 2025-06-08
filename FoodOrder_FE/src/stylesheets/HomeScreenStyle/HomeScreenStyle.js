@@ -18,14 +18,10 @@ export const homeContentStyles = StyleSheet.create({
 export const displayItemStyles = StyleSheet.create({
   imgPopContent: {
     backgroundColor:'black',
-    position:"absolute",
     borderColor:'brown',
     borderWidth:3.2,
     borderRadius:16,
-    width:'75%',
-    height:'75%',
-    left:50,
-    top:56
+    width:'90%'
   },
 
   modalNameContainer: { 

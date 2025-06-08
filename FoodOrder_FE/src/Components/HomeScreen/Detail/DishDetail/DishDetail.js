@@ -41,7 +41,10 @@ const DishDetail = ({ dishId }) => {
   const [actDisplay, setActDisplay] = useState(false);
   const [starCount, setStarCount] = useState(0);
   const [detailID, setDetailID] = useState(NaN);
-  const [orderFormID, orderFormIDDispatch] = useReducer(OrderFormIDReducer, null);
+  const [orderFormID, orderFormIDDispatch] = useReducer(
+    OrderFormIDReducer,
+    null
+  );
 
   const onRefreshComments = useCallback(async (id) => {
     try {
@@ -90,6 +93,54 @@ const DishDetail = ({ dishId }) => {
   return (
     <orderFormIDContext.Provider value={[orderFormID, orderFormIDDispatch]}>
       <View style={DishDetailStyle.dishDetail}>
+        <Popup
+          animationType={"fade"}
+          visibleState={[imgPop, setImgPop]}
+          isSpotLight={true}
+        >
+          <View style={displayItemStyles.imgPopContent}>
+            <Image
+              source={
+                element && element.picture
+                  ? { uri: element.picture.substring(PREFIX.length) }
+                  : require("@/assets/images/favicon.png")
+              }
+              style={DishDetailStyle.imageLargeComp}
+              resizeMode="contain"
+            />
+          </View>
+        </Popup>
+        <Popup
+          isSpotLight={true}
+          animationType={"slide"}
+          visibleState={[actDisplay, setActDisplay]}
+        >
+          <RateBar
+            starState={[starCount, setStarCount]}
+            containerStyle={CommentStyle.ratePopup}
+            iconStyle={CommentStyle.rateIcon}
+          />
+        </Popup>
+        <Popup
+          animationType={"slide"}
+          visibleState={[
+            orderFormID,
+            () => orderFormIDDispatch({ type: "set", payload: null }),
+          ]}
+          isSpotLight={true}
+        >
+          <OrderForm />
+        </Popup>
+        <Popup
+          animationType={"fade"}
+          visibleState={[detailID, setDetailID]}
+          isSpotLight={true}
+        >
+          <CommentDetail
+            containerStyle={CommentDetailStyle.container}
+            detailIDState={[detailID, setDetailID]}
+          />
+        </Popup>
         {element === null ? (
           <View>
             <ActivityIndicator size={"large"} color={"orange"} />
@@ -98,55 +149,7 @@ const DishDetail = ({ dishId }) => {
         ) : (
           <>
             <View style={DishDetailStyle.dishOverview}>
-              <Popup
-                animationType={"slide"}
-                visibleState={[
-                  orderFormID,
-                  () => orderFormIDDispatch({ type: "set", payload: null }),
-                ]}
-                isSpotLight={true}
-              >
-                <OrderForm />
-              </Popup>
-              <Popup
-                animationType={"fade"}
-                visibleState={[detailID, setDetailID]}
-                isSpotLight={true}
-              >
-                <CommentDetail
-                  containerStyle={CommentDetailStyle.container}
-                  detailIDState={[detailID, setDetailID]}
-                />
-              </Popup>
               <View style={DishDetailStyle.dishPicture}>
-                <Popup
-                  animationType={"fade"}
-                  visibleState={[imgPop, setImgPop]}
-                  isSpotLight={true}
-                >
-                  <View style={displayItemStyles.imgPopContent}>
-                    <Image
-                      source={
-                        element && element.picture
-                          ? { uri: element.picture.substring(PREFIX.length) }
-                          : require("@/assets/images/favicon.png")
-                      }
-                      style={DishDetailStyle.imageLargeComp}
-                      resizeMode="contain"
-                    />
-                  </View>
-                </Popup>
-                <Popup
-                  isSpotLight={true}
-                  animationType={"slide"}
-                  visibleState={[actDisplay, setActDisplay]}
-                >
-                  <RateBar
-                    starState={[starCount, setStarCount]}
-                    containerStyle={CommentStyle.ratePopup}
-                    iconStyle={CommentStyle.rateIcon}
-                  />
-                </Popup>
                 <TouchableOpacity
                   onPressIn={() => {
                     setImgPop(!imgPop);
@@ -180,7 +183,10 @@ const DishDetail = ({ dishId }) => {
             <View style={DishDetailStyle.detailActions}>
               <TouchableOpacity
                 onPress={() => {
-                  orderFormIDDispatch({type:'set', payload:{ id: element.id, itemType: "DISH"}});
+                  orderFormIDDispatch({
+                    type: "set",
+                    payload: { id: element.id, itemType: "DISH" },
+                  });
                 }}
                 style={[
                   DishDetailStyle.actionButton,

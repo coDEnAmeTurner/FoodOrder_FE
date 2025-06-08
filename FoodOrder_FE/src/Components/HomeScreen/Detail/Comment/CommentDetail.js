@@ -1,15 +1,13 @@
 import {
   View,
-  Text,
   ActivityIndicator,
-  Pressable,
   TouchableOpacity,
-} from "react-native";
+ ScrollView } from "react-native";
 import CommentItem from "./CommentItem";
-import { useCallback, useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { AUTH_TOKEN, authApi } from "@/src/APIs/AxiosInst";
 import Endpoints from "@/src/APIs/Endpoints";
-import { ScrollView } from "react-native";
+
 
 const CommentDetail = ({ containerStyle, detailIDState }) => {
   const [item, setItem] = useState(null);
