@@ -1,9 +1,6 @@
-import { View, Text, ActivityIndicator } from "react-native";
+import { View } from "react-native";
 import { useLocalSearchParams } from "expo-router";
-import { useEffect, useReducer } from "react";
-import { authApi, AUTH_TOKEN } from "@/src/APIs/AxiosInst";
-import Endpoints from "@/src/APIs/Endpoints";
-import { useState } from "react";
+import { useReducer } from "react";
 import { OrderConfirmStyle } from "@/src/stylesheets/HomeScreenStyle/OrderStyle/OrderConfirmStyle";
 import OrderForm from "./OrderForm";
 import OrderFormIDReducer, {
@@ -13,11 +10,10 @@ import OrderFormIDReducer, {
 const OrderConfirm = () => {
   const { note, purchaseType, count, id, itemType, shipAddress } =
     useLocalSearchParams();
-    const [orderFormID, orderFormIDDispatch] = useReducer(OrderFormIDReducer, {
-        id: id,
-        itemType: itemType,
-    });
-    console.log(orderFormID);
+  const [orderFormID, orderFormIDDispatch] = useReducer(OrderFormIDReducer, {
+      id: id,
+      itemType: itemType,
+  });
     
   return (
     <orderFormIDContext.Provider value={[orderFormID, orderFormIDDispatch]}>

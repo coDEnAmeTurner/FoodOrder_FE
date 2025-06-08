@@ -14,6 +14,7 @@ import FilterTypeReducer, {
   filterTypeContext,
 } from "../../Context/FilterTypeContext";
 import Icon from "@react-native-vector-icons/ionicons";
+import { router, useRouter } from "expo-router";
 
 const QuerySection = ({
   searchFocus,
@@ -31,6 +32,8 @@ const QuerySection = ({
     FilterTypeReducer,
     FilterType.NONE
   );
+
+  const router = useRouter();
 
   return (
     <View style={style}>
@@ -85,6 +88,12 @@ const QuerySection = ({
           <FilterItem typeEnum={FilterType.DAYSESSION}>
             <DaySessionFilterContent daySessionState={[...daySessionState]} />
           </FilterItem>
+          <TouchableOpacity style={{flex:1}} onPress={()=>{router.navigate({
+            pathname:'/orders/momo_payment',
+            params:{
+              orderID:12
+            }
+          })}}><Text>Order</Text></TouchableOpacity>
         </View>
       </filterTypeContext.Provider>
     </View>

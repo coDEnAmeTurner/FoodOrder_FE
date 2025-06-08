@@ -59,6 +59,14 @@ const OrderForm = ({
 
         if (resp.status === 201) {
           order.current = resp.data;
+          if(order.current) {
+            router.navigate({
+              pathname: "/orders/momo_payment",
+              params: {
+                orderID: order.current.id
+              },
+            })
+          }
         } else {
           throw Error(resp.data);
         }
@@ -262,13 +270,7 @@ const OrderForm = ({
                 <TouchableOpacity
                   onPress={() => {
                     createOrder(orderFormID.itemType);
-                    if(order.current) {
-                      router.navigate({
-                        pathname: "",
-                        params: {
-                        },
-                      })
-                    }
+                    
                   }}
                   style={{
                     width: "100%",

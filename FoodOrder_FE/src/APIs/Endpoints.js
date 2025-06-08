@@ -7,8 +7,8 @@ const Endpoints = {
     RETRIEVE_SHOP: (shopId)=> `/shops/${shopId}`,
     GET_MENU: "/menus",
     LIST_COMMENTS_BY_COMMENT: (parentId)=>`${Endpoints.RETRIEVE_COMMENT_BY_ID(parentId)}/comments`,
-    CREATE_DISH_ORDER: ()=> "/orders/dishs",
-    CREATE_MENU_ORDER: ()=> "/orders/menus",
+    CREATE_DISH_ORDER: ()=> "/orders/dishs/",
+    CREATE_MENU_ORDER: ()=> "/orders/menus/",
 }
 
 export default Endpoints;
