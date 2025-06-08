@@ -9,6 +9,8 @@ const Endpoints = {
     LIST_COMMENTS_BY_COMMENT: (parentId)=>`${Endpoints.RETRIEVE_COMMENT_BY_ID(parentId)}/comments`,
     CREATE_DISH_ORDER: ()=> "/orders/dishs/",
     CREATE_MENU_ORDER: ()=> "/orders/menus/",
+    RETRIEVE_ORDER_BY_ID: (orderID)=>`/orders/${orderID}`,
+    RETRIEVE_TOKEN: '/o/token/'
 }
 
 export default Endpoints;

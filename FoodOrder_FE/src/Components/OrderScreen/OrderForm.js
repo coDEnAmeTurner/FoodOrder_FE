@@ -61,7 +61,9 @@ const OrderForm = ({
           order.current = resp.data;
           if(order.current) {
             router.navigate({
-              pathname: "/orders/momo_payment",
+              pathname: `/orders/${
+                order.current.payment_type==='momo'?'momo_payment':
+                order.current.payment_type==='vnpay'?'vnpay_payment':''}`,
               params: {
                 orderID: order.current.id
               },

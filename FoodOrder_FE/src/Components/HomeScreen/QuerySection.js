@@ -88,12 +88,16 @@ const QuerySection = ({
           <FilterItem typeEnum={FilterType.DAYSESSION}>
             <DaySessionFilterContent daySessionState={[...daySessionState]} />
           </FilterItem>
-          <TouchableOpacity style={{flex:1}} onPress={()=>{router.navigate({
-            pathname:'/orders/momo_payment',
-            params:{
-              orderID:12
-            }
-          })}}><Text>Order</Text></TouchableOpacity>
+          {/* <TouchableOpacity 
+            onPress={()=>{
+              router.navigate({
+                pathname:'/orders/vnpay_payment',
+                params: {
+                  orderID: 12
+                }
+              })
+            }}
+          ><Text>VNPAY</Text></TouchableOpacity> */}
         </View>
       </filterTypeContext.Provider>
     </View>
